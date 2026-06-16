@@ -1,0 +1,39 @@
+name: Update publications
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly, early Monday UTC. Publication metadata changes slowly.
+    - cron: "21 5 * * 1"
+
+permissions:
+  contents: write
+
+jobs:
+  update-publications:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch DBLP publications
+        env:
+          DBLP_PID: "245/9003"
+        run: python scripts/update_publications.py
+
+      - name: Commit updated publication data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/publications.json _data/publications_generated_at.txt
+          if git diff --staged --quiet; then
+            echo "No publication changes."
+          else
+            git commit -m "Update publications from DBLP"
+            git push
+          fi
