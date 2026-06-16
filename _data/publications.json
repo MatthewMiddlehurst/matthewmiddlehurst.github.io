@@ -1,0 +1,38 @@
+[
+  {
+    "title": "aeon: a Python Toolkit for Learning from Time Series",
+    "authors": ["Matthew Middlehurst", "Ali Ismail-Fawaz", "Antoine Guillaume", "Christopher Holder", "David Guijo-Rubio", "Guzal Bulatova", "Leonidas Tsaprounis", "Lukasz Mentel", "Martin Walter", "Patrick Schäfer", "Anthony J. Bagnall"],
+    "venue": "Journal of Machine Learning Research",
+    "year": 2024,
+    "type": "journal",
+    "url": "https://www.jmlr.org/papers/v25/23-1444.html",
+    "doi": "",
+    "dblp_key": "journals/jmlr/MiddlehurstIGHG24",
+    "selected": true,
+    "note": "Software paper for the aeon toolkit."
+  },
+  {
+    "title": "HIVE-COTE 2.0: a new meta ensemble for time series classification",
+    "authors": ["Matthew Middlehurst", "James Large", "Michael Flynn", "Jason Lines", "Aaron Bostrom", "Anthony J. Bagnall"],
+    "venue": "Machine Learning",
+    "year": 2021,
+    "type": "journal",
+    "url": "https://doi.org/10.1007/s10994-021-06057-9",
+    "doi": "10.1007/s10994-021-06057-9",
+    "dblp_key": "journals/ml/MiddlehurstLFLBB21",
+    "selected": true,
+    "note": "Introduces HIVE-COTE 2.0 for time series classification."
+  },
+  {
+    "title": "The great multivariate time series classification bake off: a review and experimental evaluation of recent algorithmic advances",
+    "authors": ["Alejandro Pasos Ruiz", "Michael Flynn", "James Large", "Matthew Middlehurst", "Anthony J. Bagnall"],
+    "venue": "Data Mining and Knowledge Discovery",
+    "year": 2021,
+    "type": "journal",
+    "url": "https://doi.org/10.1007/s10618-020-00727-3",
+    "doi": "10.1007/s10618-020-00727-3",
+    "dblp_key": "journals/datamine/RuizFLLMB21",
+    "selected": true,
+    "note": "Review and experimental evaluation of multivariate time series classification algorithms."
+  }
+]

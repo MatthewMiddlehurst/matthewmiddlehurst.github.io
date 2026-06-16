@@ -1,0 +1,17 @@
+{
+  "selected_keys": [
+    "journals/jmlr/MiddlehurstIGHG24",
+    "journals/ml/MiddlehurstLFLBB21",
+    "journals/datamine/RuizFLLMB21",
+    "conf/pkdd/MiddlehurstLCB20",
+    "conf/bigdataconf/MiddlehurstLB20"
+  ],
+  "exclude_keys": [],
+  "notes": {
+    "journals/jmlr/MiddlehurstIGHG24": "Software paper for the aeon toolkit.",
+    "journals/ml/MiddlehurstLFLBB21": "Introduces HIVE-COTE 2.0 for time series classification.",
+    "journals/datamine/RuizFLLMB21": "Review and experimental evaluation of multivariate time series classification algorithms.",
+    "conf/pkdd/MiddlehurstLCB20": "Temporal Dictionary Ensemble classifier for time series classification.",
+    "conf/bigdataconf/MiddlehurstLB20": "Canonical Interval Forest classifier for time series classification."
+  }
+}

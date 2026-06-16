@@ -1,0 +1,58 @@
+title: "Matthew Middlehurst"
+description: "Lecturer in Computer Science working on time series machine learning, benchmarking, and open-source research software."
+url: "https://matthewmiddlehurst.github.io"
+baseurl: ""
+
+lang: en-GB
+timezone: Europe/London
+
+profile:
+  name: "Matthew Middlehurst"
+  role: "Lecturer in Computer Science"
+  affiliation: "University of Bradford"
+  location: "Bradford, UK"
+  email: "TODO: add academic email"
+  short_bio: "I work on time series machine learning, with a focus on classification, benchmarking, unequal-length and multivariate time series, and open-source research software."
+  photo: "/assets/images/profile-placeholder.svg"
+
+links:
+  github: "https://github.com/MatthewMiddlehurst"
+  orcid: "https://orcid.org/0000-0002-3293-8779"
+  dblp: "https://dblp.org/pid/245/9003"
+  google_scholar: "https://scholar.google.com/citations?user=ztobgj4AAAAJ"
+  linkedin: "https://www.linkedin.com/in/matthew-middlehurst-86215917a"
+  university: "TODO: add University of Bradford profile URL"
+
+navigation:
+  - title: "Home"
+    url: "/"
+  - title: "Research"
+    url: "/research/"
+  - title: "Publications"
+    url: "/publications/"
+  - title: "Software"
+    url: "/software/"
+  - title: "Teaching"
+    url: "/teaching/"
+  - title: "CV"
+    url: "/cv/"
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+permalink: pretty
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - scripts/
+  - vendor/
+  - .bundle/
+  - .github/
