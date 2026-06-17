@@ -1,228 +1,200 @@
-#!/usr/bin/env python3
-"""Fetch publications from DBLP and write Jekyll data JSON.
-
-Default author: Matthew Middlehurst, DBLP PID 245/9003.
-
-The script intentionally writes static data for Jekyll rather than making the
-website call DBLP at page-load time. This keeps the public site fast and robust.
-"""
-
-from __future__ import annotations
-
-import html
 import json
 import os
-import re
-import sys
-import urllib.error
-import urllib.request
-import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
-
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "_data"
-OUTPUT_PATH = DATA_DIR / "publications.json"
-OVERRIDES_PATH = DATA_DIR / "publication_overrides.json"
-
-DBLP_PID = os.environ.get("DBLP_PID", "245/9003")
-DBLP_XML_URL = os.environ.get("DBLP_XML_URL", f"https://dblp.org/pid/{DBLP_PID}.xml")
-
-RECORD_TAGS = {
-    "article",
-    "inproceedings",
-    "proceedings",
-    "book",
-    "incollection",
-    "phdthesis",
-    "mastersthesis",
-    "www",
-}
-
-TYPE_PRIORITY = {
-    "journal": 0,
-    "conference": 1,
-    "book": 2,
-    "chapter": 3,
-    "thesis": 4,
-    "preprint": 5,
-    "web": 6,
-    "other": 7,
-}
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 
-def text_of(element: ET.Element | None) -> str:
-    if element is None:
-        return ""
-    return html.unescape("".join(element.itertext())).strip().rstrip(".")
+ORCID_API_BASE = "https://pub.orcid.org/v3.0"
+ORCID_TOKEN_URL = "https://orcid.org/oauth/token"
+OUTPUT_PATH = Path("_data/publications.json")
 
 
-def child_text(record: ET.Element, tag: str) -> str:
-    return text_of(record.find(tag))
+def require_env(name):
+    value = os.environ.get(name)
+    if not value:
+        raise RuntimeError(f"Missing required environment variable: {name}")
+    return value
 
 
-def all_child_text(record: ET.Element, tag: str) -> list[str]:
-    return [text_of(child) for child in record.findall(tag) if text_of(child)]
+def request_json(url, headers=None, data=None):
+    request = Request(url, headers=headers or {}, data=data)
+    with urlopen(request, timeout=30) as response:
+        return json.load(response)
 
 
-def normalise_title(title: str) -> str:
-    title = re.sub(r"\s+", " ", title.casefold())
-    title = re.sub(r"[^a-z0-9 ]", "", title)
-    return title.strip()
+def get_access_token(client_id, client_secret):
+    data = urlencode(
+        {
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "grant_type": "client_credentials",
+            "scope": "/read-public",
+        }
+    ).encode("utf-8")
+
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+
+    response = request_json(ORCID_TOKEN_URL, headers=headers, data=data)
+    token = response.get("access_token")
+
+    if not token:
+        raise RuntimeError("ORCID did not return an access token.")
+
+    return token
 
 
-def venue_and_type(record: ET.Element) -> tuple[str, str]:
-    tag = record.tag
-    journal = child_text(record, "journal")
-    booktitle = child_text(record, "booktitle")
-    school = child_text(record, "school")
-    publisher = child_text(record, "publisher")
+def get_nested_value(data, keys, default=""):
+    current = data
 
-    if tag == "article":
-        if journal.casefold() in {"corr", "arxiv"} or "CoRR" in journal:
-            return journal or "arXiv", "preprint"
-        return journal, "journal"
-    if tag == "inproceedings":
-        return booktitle, "conference"
-    if tag == "incollection":
-        return booktitle or publisher, "chapter"
-    if tag == "book":
-        return publisher, "book"
-    if tag in {"phdthesis", "mastersthesis"}:
-        return school, "thesis"
-    if tag == "www":
-        return "Web profile", "web"
-    return booktitle or journal or publisher, "other"
+    for key in keys:
+        if not isinstance(current, dict):
+            return default
+
+        current = current.get(key)
+
+        if current is None:
+            return default
+
+    return current
 
 
-def extract_doi(urls: list[str]) -> str:
-    for url in urls:
-        match = re.search(r"(?:doi\.org/|doi=)(10\.\d{4,9}/[^\s?#]+)", url, flags=re.I)
-        if match:
-            return match.group(1).rstrip(".")
-    return ""
+def get_external_ids(work):
+    external_ids = get_nested_value(work, ["external-ids", "external-id"], [])
+    ids = {"doi": "", "isbn": "", "pmid": "", "arxiv": "", "url": ""}
+
+    for item in external_ids:
+        id_type = item.get("external-id-type", "").lower()
+        id_value = item.get("external-id-value", "")
+        id_url = get_nested_value(item, ["external-id-url", "value"], "")
+
+        if id_type in ids and id_value:
+            ids[id_type] = id_value
+
+        if id_type == "doi" and id_value:
+            ids["url"] = id_url or f"https://doi.org/{id_value}"
+
+    return ids
 
 
-def parse_year(value: str) -> int:
-    try:
-        return int(value)
-    except ValueError:
-        return 0
+def get_year(work):
+    year = get_nested_value(work, ["publication-date", "year", "value"], "")
+
+    if str(year).isdigit():
+        return int(year)
+
+    return None
 
 
-def load_overrides() -> dict[str, Any]:
-    if not OVERRIDES_PATH.exists():
-        return {"selected_keys": [], "exclude_keys": [], "notes": {}}
-    with OVERRIDES_PATH.open("r", encoding="utf-8") as f:
-        data = json.load(f)
-    data.setdefault("selected_keys", [])
-    data.setdefault("exclude_keys", [])
-    data.setdefault("notes", {})
-    return data
+def get_authors(work):
+    contributors = get_nested_value(work, ["contributors", "contributor"], [])
+    authors = []
+
+    for contributor in contributors:
+        name = get_nested_value(contributor, ["credit-name", "value"], "")
+        if name:
+            authors.append(name)
+
+    return authors
 
 
-def fetch_xml() -> bytes:
-    request = urllib.request.Request(
-        DBLP_XML_URL,
-        headers={"User-Agent": "academic-homepage-publication-updater/1.0"},
+def normalise_work(work):
+    external_ids = get_external_ids(work)
+
+    title = get_nested_value(work, ["title", "title", "value"], "")
+    subtitle = get_nested_value(work, ["title", "subtitle", "value"], "")
+    translated_title = get_nested_value(work, ["title", "translated-title", "value"], "")
+
+    if subtitle:
+        title = f"{title}: {subtitle}"
+
+    url = get_nested_value(work, ["url", "value"], "") or external_ids["url"]
+
+    return {
+        "title": title,
+        "translated_title": translated_title,
+        "authors": get_authors(work),
+        "year": get_year(work),
+        "venue": get_nested_value(work, ["journal-title", "value"], ""),
+        "type": work.get("type", ""),
+        "doi": external_ids["doi"],
+        "isbn": external_ids["isbn"],
+        "pmid": external_ids["pmid"],
+        "arxiv": external_ids["arxiv"],
+        "url": url,
+        "orcid_put_code": work.get("put-code"),
+        "source": "ORCID",
+    }
+
+
+def fetch_work_summaries(orcid_id, token):
+    url = f"{ORCID_API_BASE}/{orcid_id}/works"
+    headers = {
+        "Accept": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    data = request_json(url, headers=headers)
+    summaries = []
+
+    for group in data.get("group", []):
+        work_summaries = group.get("work-summary", [])
+        if work_summaries:
+            summaries.append(work_summaries[0])
+
+    return summaries
+
+
+def fetch_work(orcid_id, put_code, token):
+    url = f"{ORCID_API_BASE}/{orcid_id}/work/{put_code}"
+    headers = {
+        "Accept": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    return request_json(url, headers=headers)
+
+
+def write_publications(publications):
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    OUTPUT_PATH.write_text(
+        json.dumps(publications, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
     )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return response.read()
 
+if __name__ == "__main__":
+    orcid_id = require_env("ORCID_ID")
+    client_id = require_env("ORCID_CLIENT_ID")
+    client_secret = require_env("ORCID_CLIENT_SECRET")
 
-def parse_publications(xml_bytes: bytes, overrides: dict[str, Any]) -> list[dict[str, Any]]:
-    root = ET.fromstring(xml_bytes)
-    excluded = set(overrides.get("exclude_keys", []))
-    selected = set(overrides.get("selected_keys", []))
-    notes = dict(overrides.get("notes", {}))
+    token = get_access_token(client_id, client_secret)
+    summaries = fetch_work_summaries(orcid_id, token)
 
-    publications: list[dict[str, Any]] = []
+    publications = []
 
-    # DBLP person XML stores bibliographic records inside <r> wrappers.
-    for wrapper in root.findall("r"):
-        record = next((child for child in list(wrapper) if child.tag in RECORD_TAGS), None)
-        if record is None:
+    for summary in summaries:
+        put_code = summary.get("put-code")
+        if not put_code:
             continue
 
-        key = record.attrib.get("key", "")
-        if key in excluded:
-            continue
+        work = fetch_work(orcid_id, put_code, token)
+        publication = normalise_work(work)
 
-        title = child_text(record, "title")
-        if not title:
-            continue
+        if publication["title"]:
+            publications.append(publication)
 
-        authors = all_child_text(record, "author") or all_child_text(record, "editor")
-        venue, pub_type = venue_and_type(record)
-        year = parse_year(child_text(record, "year"))
-        urls = all_child_text(record, "ee")
-        url = urls[0] if urls else (f"https://dblp.org/rec/{key}" if key else "")
-        doi = extract_doi(urls)
-
-        publications.append(
-            {
-                "title": title,
-                "authors": authors,
-                "venue": venue,
-                "year": year,
-                "type": pub_type,
-                "url": url,
-                "doi": doi,
-                "dblp_key": key,
-                "selected": key in selected,
-                "note": notes.get(key, ""),
-            }
-        )
-
-    # Prefer published records over duplicate arXiv/CoRR records with the same title.
-    deduped: dict[str, dict[str, Any]] = {}
-    for pub in publications:
-        norm_title = normalise_title(pub["title"])
-        existing = deduped.get(norm_title)
-        if existing is None:
-            deduped[norm_title] = pub
-            continue
-
-        current_rank = (TYPE_PRIORITY.get(pub["type"], 99), -int(pub["year"] or 0))
-        existing_rank = (TYPE_PRIORITY.get(existing["type"], 99), -int(existing["year"] or 0))
-        if current_rank < existing_rank:
-            # Preserve selected/note if either duplicate was manually curated.
-            pub["selected"] = bool(pub.get("selected") or existing.get("selected"))
-            pub["note"] = pub.get("note") or existing.get("note", "")
-            deduped[norm_title] = pub
-
-    return sorted(
-        deduped.values(),
-        key=lambda p: (int(p.get("year") or 0), TYPE_PRIORITY.get(p.get("type", "other"), 99), p.get("title", "")),
+    publications.sort(
+        key=lambda item: (
+            item["year"] or 0,
+            item["title"].lower(),
+        ),
         reverse=True,
     )
 
-
-def write_json(publications: list[dict[str, Any]]) -> None:
-    DATA_DIR.mkdir(exist_ok=True)
-    payload = json.dumps(publications, indent=2, ensure_ascii=False) + "\n"
-    OUTPUT_PATH.write_text(payload, encoding="utf-8")
-
-    stamp = ROOT / "_data" / "publications_generated_at.txt"
-    stamp.write_text(datetime.now(timezone.utc).isoformat(timespec="seconds") + "\n", encoding="utf-8")
-
-
-def main() -> int:
-    try:
-        overrides = load_overrides()
-        xml_bytes = fetch_xml()
-        publications = parse_publications(xml_bytes, overrides)
-        if not publications:
-            raise RuntimeError("No publications parsed from DBLP response")
-        write_json(publications)
-    except (urllib.error.URLError, ET.ParseError, RuntimeError, json.JSONDecodeError) as exc:
-        print(f"Publication update failed: {exc}", file=sys.stderr)
-        return 1
+    write_publications(publications)
 
     print(f"Wrote {len(publications)} publications to {OUTPUT_PATH}")
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
