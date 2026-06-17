@@ -26,7 +26,7 @@ jobs:
           ORCID_ID: "0000-0002-3293-8779"
           ORCID_CLIENT_ID: ${{ secrets.ORCID_CLIENT_ID }}
           ORCID_CLIENT_SECRET: ${{ secrets.ORCID_CLIENT_SECRET }}
-        run: python scripts/update_publications_orcid.py
+        run: python scripts/update_publications.py
 
       - name: Create or update pull request
         uses: peter-evans/create-pull-request@v8

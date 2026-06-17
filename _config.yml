@@ -11,17 +11,15 @@ profile:
   role: "Lecturer in Computer Science"
   affiliation: "University of Bradford"
   location: "Bradford, UK"
-  email: "TODO: add academic email"
-  short_bio: "I work on time series machine learning, with a focus on classification, benchmarking, unequal-length and multivariate time series, and open-source research software."
-  photo: "/assets/images/profile-placeholder.svg"
+  email: "m.b.middlehurst@bradford.ac.uk"
+  short_bio: "I work on time series machine learning, with a focus on classification and open-source research software."
+  photo: "/assets/images/photo.png"
 
 links:
   github: "https://github.com/MatthewMiddlehurst"
   orcid: "https://orcid.org/0000-0002-3293-8779"
-  dblp: "https://dblp.org/pid/245/9003"
   google_scholar: "https://scholar.google.com/citations?user=ztobgj4AAAAJ"
   linkedin: "https://www.linkedin.com/in/matthew-middlehurst-86215917a"
-  university: "TODO: add University of Bradford profile URL"
 
 navigation:
   - title: "Home"

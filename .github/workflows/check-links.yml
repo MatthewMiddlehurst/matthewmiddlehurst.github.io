@@ -1,0 +1,37 @@
+name: Check links
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 09:00 UTC on the first day of each month.
+    - cron: "0 9 1 * *"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --root-dir "${{ github.workspace }}"
+            --verbose
+            --no-progress
+            --method get
+            --timeout 20
+            --max-retries 2
+            './**/*.md'
+            './**/*.markdown'
+            './**/*.html'
+            './**/*.rst'
+          fail: true
+          failIfEmpty: true
+          jobSummary: false
