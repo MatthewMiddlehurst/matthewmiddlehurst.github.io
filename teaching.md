@@ -21,7 +21,3 @@ I am interested in supervising student projects involving:
 - machine learning benchmarking and reproducibility;
 - sensor, activity-recognition, health, rehabilitation, or industrial monitoring data;
 - Python research software and open-source machine learning infrastructure.
-
-## Public teaching materials
-
-Add links here if you publish selected lecture notes, lab sheets, or project briefs.

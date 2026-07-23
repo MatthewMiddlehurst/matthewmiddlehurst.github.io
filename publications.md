@@ -1,18 +1,17 @@
 ---
 layout: page
 title: Publications
-summary: "Automatically generated from DBLP, with optional local overrides for selected papers and notes."
+summary: "Automatically generated from ORCID, with optional local overrides for selected papers and notes."
 permalink: /publications/
 ---
 
 <div class="callout">
-  This page is generated from <a href="{{ site.links.dblp }}">DBLP</a> by a GitHub Action. Curated notes and selected-paper flags are controlled in <code>_data/publication_overrides.json</code>.
+  This page is generated from my <a href="{{ site.links.orcid }}">ORCID record</a> by a monthly GitHub Action. Curated notes and selected-paper flags are controlled in <code>_data/publication_overrides.json</code>.
 </div>
 
 <p>
   External profiles:
   <a href="{{ site.links.orcid }}">ORCID</a> ·
-  <a href="{{ site.links.dblp }}">DBLP</a> ·
   <a href="{{ site.links.google_scholar }}">Google Scholar</a>
 </p>
 

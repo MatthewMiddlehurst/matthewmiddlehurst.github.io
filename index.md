@@ -19,7 +19,7 @@ title: Home
       <a class="button" href="{{ site.links.orcid }}">ORCID</a>
     </p>
   </div>
-  <img class="profile-photo" src="{{ site.profile.photo | relative_url }}" alt="Profile photograph placeholder">
+  <img class="profile-photo" src="{{ site.profile.photo | relative_url }}" alt="Portrait of Matthew Middlehurst">
 </section>
 
 <section class="section">
@@ -87,14 +87,14 @@ title: Home
   <div class="grid two">
     <article class="card">
       <h3>Academic profile</h3>
-      <p>{{ site.profile.role }}, {{ site.profile.affiliation }}. Replace the placeholder email and university link in <code>_config.yml</code>.</p>
+      <p>{{ site.profile.role }}, {{ site.profile.affiliation }}.</p>
+      <div class="links"><a href="mailto:{{ site.profile.email }}">Email</a></div>
     </article>
     <article class="card">
       <h3>External links</h3>
       <p>
         <a href="{{ site.links.github }}">GitHub</a> ·
         <a href="{{ site.links.orcid }}">ORCID</a> ·
-        <a href="{{ site.links.dblp }}">DBLP</a> ·
         <a href="{{ site.links.google_scholar }}">Google Scholar</a> ·
         <a href="{{ site.links.linkedin }}">LinkedIn</a>
       </p>

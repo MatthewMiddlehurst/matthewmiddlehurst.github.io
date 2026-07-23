@@ -9,9 +9,11 @@
     </p>
     {% if include.pub.note %}<p class="note">{{ include.pub.note }}</p>{% endif %}
   </div>
+  {% assign publication_doi = include.pub.doi | default: '' | strip %}
+  {% assign publication_url = include.pub.url | default: '' | strip %}
+  {% assign doi_url = publication_doi | prepend: 'https://doi.org/' %}
   <div class="publication-links">
-    {% if include.pub.doi %}<a href="https://doi.org/{{ include.pub.doi }}">DOI</a>{% endif %}
-    {% if include.pub.url %}<a href="{{ include.pub.url }}">Link</a>{% endif %}
-    {% if include.pub.dblp_key %}<a href="https://dblp.org/rec/{{ include.pub.dblp_key }}">DBLP</a>{% endif %}
+    {% if publication_doi != '' %}<a href="{{ doi_url }}">DOI</a>{% endif %}
+    {% if publication_url != '' and publication_url != doi_url %}<a href="{{ publication_url }}">Publication</a>{% endif %}
   </div>
 </li>

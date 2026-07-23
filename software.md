@@ -36,4 +36,4 @@ permalink: /software/
 
 ## Citation
 
-Where possible, please cite the relevant software papers and versioned releases when using research software in academic work. Add package-specific citation information here as needed.
+Where possible, please cite the relevant software papers and versioned releases when using research software in academic work.

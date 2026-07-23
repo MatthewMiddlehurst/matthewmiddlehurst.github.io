@@ -13,7 +13,7 @@ profile:
   location: "Bradford, UK"
   email: "m.b.middlehurst@bradford.ac.uk"
   short_bio: "I work on time series machine learning, with a focus on classification and open-source research software."
-  photo: "/assets/images/photo.png"
+  photo: "/assets/images/photo.jpg"
 
 links:
   github: "https://github.com/MatthewMiddlehurst"
@@ -32,8 +32,6 @@ navigation:
     url: "/software/"
   - title: "Teaching"
     url: "/teaching/"
-  - title: "CV"
-    url: "/cv/"
 
 plugins:
   - jekyll-feed

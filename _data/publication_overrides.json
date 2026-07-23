@@ -1,17 +1,17 @@
 {
   "selected_keys": [
-    "journals/jmlr/MiddlehurstIGHG24",
-    "journals/ml/MiddlehurstLFLBB21",
-    "journals/datamine/RuizFLLMB21",
-    "conf/pkdd/MiddlehurstLCB20",
-    "conf/bigdataconf/MiddlehurstLB20"
+    "title:aeon a python toolkit for learning from time series",
+    "doi:10.1007/s10994-021-06057-9",
+    "doi:10.1007/s10618-020-00727-3",
+    "title:the temporal dictionary ensemble tde classifier for time series classification",
+    "title:the canonical interval forest cif classifier for time series classification"
   ],
   "exclude_keys": [],
   "notes": {
-    "journals/jmlr/MiddlehurstIGHG24": "Software paper for the aeon toolkit.",
-    "journals/ml/MiddlehurstLFLBB21": "Introduces HIVE-COTE 2.0 for time series classification.",
-    "journals/datamine/RuizFLLMB21": "Review and experimental evaluation of multivariate time series classification algorithms.",
-    "conf/pkdd/MiddlehurstLCB20": "Temporal Dictionary Ensemble classifier for time series classification.",
-    "conf/bigdataconf/MiddlehurstLB20": "Canonical Interval Forest classifier for time series classification."
+    "title:aeon a python toolkit for learning from time series": "Software paper for the aeon toolkit.",
+    "doi:10.1007/s10994-021-06057-9": "Introduces HIVE-COTE 2.0 for time series classification.",
+    "doi:10.1007/s10618-020-00727-3": "Review and experimental evaluation of multivariate time series classification algorithms.",
+    "title:the temporal dictionary ensemble tde classifier for time series classification": "Temporal Dictionary Ensemble classifier for time series classification.",
+    "title:the canonical interval forest cif classifier for time series classification": "Canonical Interval Forest classifier for time series classification."
   }
 }

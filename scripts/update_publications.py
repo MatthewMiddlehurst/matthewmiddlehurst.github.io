@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -8,6 +9,7 @@ from urllib.request import Request, urlopen
 ORCID_API_BASE = "https://pub.orcid.org/v3.0"
 ORCID_TOKEN_URL = "https://orcid.org/oauth/token"
 OUTPUT_PATH = Path("_data/publications.json")
+OVERRIDES_PATH = Path("_data/publication_overrides.json")
 
 
 def require_env(name):
@@ -60,6 +62,93 @@ def get_nested_value(data, keys, default=""):
             return default
 
     return current
+
+
+def normalise_title(title):
+    """Return a stable, punctuation-insensitive title for override matching."""
+    return re.sub(r"[^a-z0-9]+", " ", str(title).casefold()).strip()
+
+
+def normalise_override_key(key):
+    """Normalise the prefix and value of a configured override key."""
+    prefix, separator, value = str(key).partition(":")
+    if not separator:
+        raise ValueError(f"Invalid publication override key: {key!r}")
+
+    prefix = prefix.strip().casefold()
+    value = value.strip()
+
+    if prefix == "title":
+        value = normalise_title(value)
+    elif prefix == "doi":
+        value = value.casefold()
+    elif prefix == "orcid":
+        value = str(value)
+    else:
+        raise ValueError(f"Unsupported publication override key prefix: {prefix!r}")
+
+    if not value:
+        raise ValueError(f"Publication override key has no value: {key!r}")
+
+    return f"{prefix}:{value}"
+
+
+def load_overrides():
+    if not OVERRIDES_PATH.exists():
+        return {"selected_keys": set(), "exclude_keys": set(), "notes": {}}
+
+    with OVERRIDES_PATH.open(encoding="utf-8") as file:
+        data = json.load(file)
+
+    selected_keys = {
+        normalise_override_key(key) for key in data.get("selected_keys", [])
+    }
+    exclude_keys = {
+        normalise_override_key(key) for key in data.get("exclude_keys", [])
+    }
+    notes = {
+        normalise_override_key(key): note
+        for key, note in data.get("notes", {}).items()
+    }
+
+    return {
+        "selected_keys": selected_keys,
+        "exclude_keys": exclude_keys,
+        "notes": notes,
+    }
+
+
+def publication_override_keys(publication):
+    """Build keys from strongest to weakest for matching local overrides."""
+    keys = []
+    doi = str(publication.get("doi") or "").strip().casefold()
+    put_code = publication.get("orcid_put_code")
+    title = normalise_title(publication.get("title") or "")
+
+    if doi:
+        keys.append(f"doi:{doi}")
+    if put_code is not None and str(put_code).strip():
+        keys.append(f"orcid:{put_code}")
+    if title:
+        keys.append(f"title:{title}")
+
+    return keys
+
+
+def apply_overrides(publication, overrides):
+    keys = publication_override_keys(publication)
+
+    if any(key in overrides["exclude_keys"] for key in keys):
+        return None
+
+    publication["selected"] = any(
+        key in overrides["selected_keys"] for key in keys
+    )
+    publication["note"] = next(
+        (overrides["notes"][key] for key in keys if key in overrides["notes"]),
+        "",
+    )
+    return publication
 
 
 def get_external_ids(work):
@@ -172,6 +261,7 @@ if __name__ == "__main__":
     client_secret = require_env("ORCID_CLIENT_SECRET")
 
     token = get_access_token(client_id, client_secret)
+    overrides = load_overrides()
     summaries = fetch_work_summaries(orcid_id, token)
 
     publications = []
@@ -183,9 +273,15 @@ if __name__ == "__main__":
 
         work = fetch_work(orcid_id, put_code, token)
         publication = normalise_work(work)
+        publication = apply_overrides(publication, overrides)
 
-        if publication["title"]:
+        if publication and publication["title"]:
             publications.append(publication)
+
+    if not publications:
+        raise RuntimeError(
+            "ORCID returned no publications; refusing to overwrite the data file."
+        )
 
     publications.sort(
         key=lambda item: (
