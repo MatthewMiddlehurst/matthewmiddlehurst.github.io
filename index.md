@@ -21,7 +21,6 @@ title: Home
 
 <section class="section" id="research" aria-labelledby="research-title">
   <div class="section-header">
-    <p class="section-number">01</p>
     <h2 id="research-title">Research</h2>
     <p>I work on machine learning for ordered observations, including sensor streams, human activity data, industrial measurements, biomedical signals, and other temporal data.</p>
   </div>
@@ -51,7 +50,6 @@ title: Home
 <section class="section" id="publications" aria-labelledby="publications-title">
   <div class="section-header with-links">
     <div>
-      <p class="section-number">02</p>
       <h2 id="publications-title">Publications</h2>
       <p>Selected papers are highlighted below, followed by the complete publication list.</p>
     </div>
@@ -75,21 +73,22 @@ title: Home
 
   <div class="publication-group">
     <h3>All publications</h3>
-    {% assign publications_by_year = site.data.publications | group_by: "year" | sort: "name" | reverse %}
-    {% for year in publications_by_year %}
-      <h3 class="publication-year">{{ year.name }}</h3>
-      <ol class="publications">
-        {% for pub in year.items %}
-          {% include publication.html pub=pub %}
-        {% endfor %}
-      </ol>
-    {% endfor %}
+    <div class="publication-archive" role="region" aria-label="Complete publication list" tabindex="0">
+      {% assign publications_by_year = site.data.publications | group_by: "year" | sort: "name" | reverse %}
+      {% for year in publications_by_year %}
+        <h3 class="publication-year">{{ year.name }}</h3>
+        <ol class="publications">
+          {% for pub in year.items %}
+            {% include publication.html pub=pub %}
+          {% endfor %}
+        </ol>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 <section class="section" id="software" aria-labelledby="software-title">
   <div class="section-header">
-    <p class="section-number">03</p>
     <h2 id="software-title">Software</h2>
     <p>Research software is a central output of my work and supports reproducible time series machine learning research.</p>
   </div>
@@ -139,7 +138,6 @@ title: Home
 
 <section class="section" id="teaching" aria-labelledby="teaching-title">
   <div class="section-header">
-    <p class="section-number">04</p>
     <h2 id="teaching-title">Teaching</h2>
     <p>My teaching and project supervision connect core computer science with practical, reproducible machine learning.</p>
   </div>

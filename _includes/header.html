@@ -1,8 +1,4 @@
 <header class="site-header">
-  <a class="brand" href="{{ '/#home' | relative_url }}" aria-label="Matthew Middlehurst — home">
-    <span class="brand-mark">MM</span>
-    <span class="brand-text">{{ site.title }}</span>
-  </a>
   <nav class="site-nav" aria-label="Main navigation">
     {% for item in site.navigation %}
       <a href="{{ item.url | relative_url }}">{{ item.title }}</a>

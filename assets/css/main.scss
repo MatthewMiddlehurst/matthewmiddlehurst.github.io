@@ -2,14 +2,16 @@
 ---
 
 :root {
-  --bg: #f7f8f8;
-  --surface: #ffffff;
-  --surface-soft: #edf3f4;
-  --text: #172126;
-  --muted: #5a676d;
-  --border: #d7e0e2;
-  --accent: #0f6075;
-  --accent-dark: #0a4657;
+  --bg: #f7f1e7;
+  --surface: #fffdf8;
+  --surface-soft: #e2efea;
+  --text: #17251f;
+  --muted: #58665f;
+  --border: #d8d0c1;
+  --accent: #006b59;
+  --accent-dark: #004c40;
+  --accent-warm: #b45837;
+  --display-font: ui-serif, Georgia, Cambria, "Times New Roman", serif;
   --max-width: 1080px;
 }
 
@@ -23,7 +25,8 @@ html {
 body {
   margin: 0;
   color: var(--text);
-  background: var(--bg);
+  background:
+    linear-gradient(180deg, #dfeee9 0, var(--bg) 29rem, var(--bg) 100%);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.65;
 }
@@ -35,7 +38,7 @@ a {
 }
 
 a:hover { color: var(--accent-dark); }
-a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3px; }
+a:focus-visible { outline: 3px solid rgba(0, 107, 89, 0.28); outline-offset: 3px; }
 
 .site-header,
 .site-footer,
@@ -49,37 +52,16 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
 .site-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding-top: 1.4rem;
-  padding-bottom: 1.4rem;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: var(--text);
-  font-weight: 750;
-  text-decoration: none;
-}
-
-.brand-mark {
-  display: inline-grid;
-  place-items: center;
-  width: 2.35rem;
-  height: 2.35rem;
-  border-radius: 50%;
-  color: #fff;
-  background: var(--accent);
-  letter-spacing: -0.04em;
+  justify-content: center;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
 }
 
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.3rem 1.15rem;
+  justify-content: center;
+  gap: 0.3rem 1.4rem;
 }
 
 .site-nav a {
@@ -97,7 +79,7 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
 }
 
 .page-shell {
-  padding-top: 1.5rem;
+  padding-top: 0.6rem;
   padding-bottom: 4rem;
 }
 
@@ -108,10 +90,11 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   gap: clamp(2rem, 6vw, 5rem);
   min-height: 28rem;
   padding: clamp(2rem, 5vw, 4rem);
-  background: var(--surface);
+  background: linear-gradient(135deg, var(--surface) 0 72%, #e7f1ed 100%);
   border: 1px solid var(--border);
+  border-top: 6px solid var(--accent-warm);
   border-radius: 16px;
-  box-shadow: 0 12px 34px rgba(23, 33, 38, 0.055);
+  box-shadow: 0 16px 38px rgba(38, 49, 42, 0.08);
   scroll-margin-top: 1rem;
 }
 
@@ -119,13 +102,13 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
 .page-header h1 {
   margin: 0;
   max-width: 12ch;
+  font-family: var(--display-font);
   font-size: clamp(2.7rem, 6vw, 4.35rem);
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  line-height: 1;
+  letter-spacing: -0.035em;
 }
 
-.eyebrow,
-.section-number {
+.eyebrow {
   margin: 0 0 0.75rem;
   color: var(--accent-dark);
   font-size: 0.76rem;
@@ -194,6 +177,7 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   object-fit: cover;
   border: 1px solid var(--border);
   border-radius: 12px;
+  box-shadow: 12px 12px 0 var(--surface-soft);
 }
 
 .section {
@@ -224,12 +208,24 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
 .section-header h2,
 .page-content h2 {
   margin: 0 0 0.7rem;
+  font-family: var(--display-font);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.05;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
+  color: var(--accent-dark);
 }
 
-.section-header p:not(.section-number),
+.section-header h2::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 0.24rem;
+  margin-top: 0.7rem;
+  border-radius: 999px;
+  background: var(--accent-warm);
+}
+
+.section-header p,
 .page-content p {
   margin: 0;
   color: var(--muted);
@@ -253,6 +249,8 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   padding-top: 1rem;
   border-top: 3px solid var(--accent);
 }
+
+.topic:nth-child(even) { border-top-color: var(--accent-warm); }
 
 .topic h3,
 .project h3,
@@ -288,6 +286,28 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   border-bottom: 1px solid var(--border);
   font-size: 0.95rem !important;
   letter-spacing: 0.06em;
+}
+
+.publication-archive {
+  max-height: 34rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--accent) var(--surface-soft);
+  padding: 0 1.25rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: inset 0 -18px 24px rgba(0, 76, 64, 0.035);
+}
+
+.publication-archive:focus-visible {
+  outline: 3px solid rgba(0, 107, 89, 0.28);
+  outline-offset: 3px;
+}
+
+.publication-archive .publication-year:first-child {
+  margin-top: 1.25rem !important;
 }
 
 .publications {
@@ -379,6 +399,8 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   border-top: 3px solid var(--accent);
 }
 
+.teaching-grid > div:nth-child(even) { border-top-color: var(--accent-warm); }
+
 .teaching-grid ul {
   margin: 0.9rem 0 0;
   padding-left: 1.25rem;
@@ -426,8 +448,7 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   }
 
   .site-nav {
-    justify-content: flex-start;
-    margin-top: 1rem;
+    justify-content: center;
     gap: 0.3rem 0.85rem;
   }
 
@@ -440,6 +461,7 @@ a:focus-visible { outline: 3px solid rgba(15, 96, 117, 0.28); outline-offset: 3p
   .profile-photo {
     order: -1;
     max-width: 150px;
+    box-shadow: 8px 8px 0 var(--surface-soft);
   }
 
   .profile-links,
