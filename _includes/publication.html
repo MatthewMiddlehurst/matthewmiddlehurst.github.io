@@ -1,7 +1,7 @@
 <li class="publication{% if include.pub.selected %} selected{% endif %}">
   <div class="publication-main">
-    <h3>{{ include.pub.title }}</h3>
-    <p class="authors">{{ include.pub.authors | join: ', ' }}</p>
+    <h4>{{ include.pub.title }}</h4>
+    {% if include.pub.authors.size > 0 %}<p class="authors">{{ include.pub.authors | join: ', ' }}</p>{% endif %}
     <p class="venue">
       {% if include.pub.venue %}<span>{{ include.pub.venue }}</span>{% endif %}
       {% if include.pub.year %}<span>{{ include.pub.year }}</span>{% endif %}

@@ -23,15 +23,15 @@ links:
 
 navigation:
   - title: "Home"
-    url: "/"
+    url: "/#home"
   - title: "Research"
-    url: "/research/"
+    url: "/#research"
   - title: "Publications"
-    url: "/publications/"
+    url: "/#publications"
   - title: "Software"
-    url: "/software/"
+    url: "/#software"
   - title: "Teaching"
-    url: "/teaching/"
+    url: "/#teaching"
 
 plugins:
   - jekyll-feed

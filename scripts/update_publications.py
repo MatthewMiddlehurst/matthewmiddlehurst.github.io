@@ -185,7 +185,7 @@ def get_authors(work):
     for contributor in contributors:
         name = get_nested_value(contributor, ["credit-name", "value"], "")
         if name:
-            authors.append(name)
+            authors.append(" ".join(name.split()))
 
     return authors
 
@@ -200,7 +200,16 @@ def normalise_work(work):
     if subtitle:
         title = f"{title}: {subtitle}"
 
-    url = get_nested_value(work, ["url", "value"], "") or external_ids["url"]
+    url = external_ids["url"] or get_nested_value(work, ["url", "value"], "")
+
+    if not url and external_ids["arxiv"]:
+        arxiv_id = external_ids["arxiv"]
+        if arxiv_id.startswith("https://"):
+            url = arxiv_id
+        elif arxiv_id.startswith("http://"):
+            url = f"https://{arxiv_id.removeprefix('http://')}"
+        else:
+            url = f"https://arxiv.org/abs/{arxiv_id}"
 
     return {
         "title": title,

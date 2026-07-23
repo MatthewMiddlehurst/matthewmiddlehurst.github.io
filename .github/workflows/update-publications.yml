@@ -31,8 +31,13 @@ jobs:
       - name: Create or update pull request
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "Update publications from ORCID"
+          base: main
           branch: update-orcid-publications
           delete-branch: true
+          commit-message: "Update publications from ORCID"
           title: "Update publications from ORCID"
-          body: Automated monthly update of publications from the public ORCID record.
+          body: |
+            Updates the website publication data from Matthew Middlehurst's
+            public ORCID record.
+          add-paths: |
+            _data/publications.json
