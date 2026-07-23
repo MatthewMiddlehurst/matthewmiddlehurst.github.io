@@ -19,6 +19,8 @@ title: Home
   <img class="profile-photo" src="{{ site.profile.photo | relative_url }}" alt="Portrait of Matthew Middlehurst">
 </section>
 
+{% include header.html %}
+
 <section class="section" id="research" aria-labelledby="research-title">
   <div class="section-header">
     <h2 id="research-title">Research</h2>

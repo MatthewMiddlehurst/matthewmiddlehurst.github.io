@@ -1,7 +1,5 @@
-<header class="site-header">
-  <nav class="site-nav" aria-label="Main navigation">
-    {% for item in site.navigation %}
-      <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
-    {% endfor %}
-  </nav>
-</header>
+<nav class="section-nav" aria-label="Page sections">
+  {% for item in site.navigation %}
+    <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+  {% endfor %}
+</nav>

@@ -22,8 +22,6 @@ links:
   linkedin: "https://www.linkedin.com/in/matthew-middlehurst-86215917a"
 
 navigation:
-  - title: "Home"
-    url: "/#home"
   - title: "Research"
     url: "/#research"
   - title: "Publications"
