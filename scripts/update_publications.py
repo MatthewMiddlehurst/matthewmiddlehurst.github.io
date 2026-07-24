@@ -1,12 +1,15 @@
 import json
 import os
 import re
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import urlencode, urlparse
+from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 
 
+CROSSREF_API_BASE = "https://api.crossref.org/works"
+CROSSREF_MAILTO = "m.b.middlehurst@bradford.ac.uk"
 ORCID_API_BASE = "https://pub.orcid.org/v3.0"
 ORCID_RECORD_BASE = "https://orcid.org"
 ORCID_TOKEN_URL = "https://orcid.org/oauth/token"
@@ -25,6 +28,15 @@ PREPRINT_HOSTS = {
     "medrxiv.org",
     "ssrn.com",
     "www.ssrn.com",
+}
+PUBLICATION_TYPE_LABELS = {
+    "book-chapter": "Conference paper",
+    "conference-paper": "Conference paper",
+    "conference-proceedings": "Conference paper",
+    "journal-article": "Journal article",
+    "proceedings-article": "Conference paper",
+    "report": "Report",
+    "working-paper": "Working paper",
 }
 
 
@@ -90,6 +102,23 @@ def get_nested_value(data, keys, default=""):
 def normalise_title(title):
     """Return a stable, punctuation-insensitive title for override matching."""
     return re.sub(r"[^a-z0-9]+", " ", str(title).casefold()).strip()
+
+
+def clean_text(value):
+    """Normalise Unicode spacing and remove source-specific text artefacts."""
+    value = unicodedata.normalize("NFKC", str(value or ""))
+    value = value.replace("\u00ad", "")
+    return " ".join(value.split())
+
+
+def normalise_publication_type(work_type):
+    value = clean_text(work_type).casefold()
+    if not value:
+        return ""
+    return PUBLICATION_TYPE_LABELS.get(
+        value,
+        value.replace("-", " ").capitalize(),
+    )
 
 
 def normalise_doi(doi):
@@ -174,7 +203,12 @@ def normalise_override_key(key):
 
 def load_overrides():
     if not OVERRIDES_PATH.exists():
-        return {"exclude_keys": set(), "notes": {}, "url_overrides": {}}
+        return {
+            "exclude_keys": set(),
+            "url_overrides": {},
+            "preprint_overrides": {},
+            "author_overrides": {},
+        }
 
     with OVERRIDES_PATH.open(encoding="utf-8") as file:
         data = json.load(file)
@@ -182,19 +216,24 @@ def load_overrides():
     exclude_keys = {
         normalise_override_key(key) for key in data.get("exclude_keys", [])
     }
-    notes = {
-        normalise_override_key(key): note
-        for key, note in data.get("notes", {}).items()
-    }
     url_overrides = {
         normalise_override_key(key): normalise_url(url)
         for key, url in data.get("url_overrides", {}).items()
     }
+    preprint_overrides = {
+        normalise_override_key(key): normalise_url(url)
+        for key, url in data.get("preprint_overrides", {}).items()
+    }
+    author_overrides = {
+        normalise_override_key(key): [clean_text(author) for author in authors]
+        for key, authors in data.get("author_overrides", {}).items()
+    }
 
     return {
         "exclude_keys": exclude_keys,
-        "notes": notes,
         "url_overrides": url_overrides,
+        "preprint_overrides": preprint_overrides,
+        "author_overrides": author_overrides,
     }
 
 
@@ -238,10 +277,6 @@ def apply_overrides(publication, overrides, selected):
         return None
 
     publication["selected"] = bool(selected)
-    publication["note"] = next(
-        (overrides["notes"][key] for key in keys if key in overrides["notes"]),
-        "",
-    )
 
     url_override = next(
         (
@@ -256,6 +291,28 @@ def apply_overrides(publication, overrides, selected):
             publication["preprint_url"] = url_override
         else:
             publication["url"] = url_override
+
+    preprint_override = next(
+        (
+            overrides["preprint_overrides"][key]
+            for key in keys
+            if key in overrides["preprint_overrides"]
+        ),
+        "",
+    )
+    if preprint_override and not publication.get("preprint_url"):
+        publication["preprint_url"] = preprint_override
+
+    author_override = next(
+        (
+            overrides["author_overrides"][key]
+            for key in keys
+            if key in overrides["author_overrides"]
+        ),
+        [],
+    )
+    if author_override:
+        publication["authors"] = author_override
 
     return publication
 
@@ -290,7 +347,7 @@ def get_authors(work):
     for contributor in contributors:
         name = get_nested_value(contributor, ["credit-name", "value"], "")
         if name:
-            authors.append(" ".join(name.split()))
+            authors.append(clean_text(name))
 
     return authors
 
@@ -298,8 +355,10 @@ def get_authors(work):
 def normalise_work(work):
     external_ids = get_external_ids(work)
 
-    title = get_nested_value(work, ["title", "title", "value"], "")
-    subtitle = get_nested_value(work, ["title", "subtitle", "value"], "")
+    title = clean_text(get_nested_value(work, ["title", "title", "value"], ""))
+    subtitle = clean_text(
+        get_nested_value(work, ["title", "subtitle", "value"], "")
+    )
     translated_title = get_nested_value(
         work,
         ["title", "translated-title", "value"],
@@ -328,11 +387,13 @@ def normalise_work(work):
 
     return {
         "title": title,
-        "translated_title": translated_title,
+        "translated_title": clean_text(translated_title),
         "authors": get_authors(work),
         "year": get_year(work),
-        "venue": get_nested_value(work, ["journal-title", "value"], ""),
-        "type": work.get("type", ""),
+        "venue": clean_text(
+            get_nested_value(work, ["journal-title", "value"], "")
+        ),
+        "type": normalise_publication_type(work.get("type", "")),
         "doi": doi,
         "isbn": external_ids["isbn"],
         "pmid": external_ids["pmid"],
@@ -396,6 +457,104 @@ def fetch_work(orcid_id, put_code, token):
 def fetch_best_group_work(orcid_id, group, token):
     best_summary = max(group["summaries"], key=work_quality_score)
     return fetch_work(orcid_id, best_summary["put-code"], token)
+
+
+def get_group_preprint_url(group):
+    """Find a preprint identifier from any source in an ORCID work group."""
+    for summary in group["summaries"]:
+        external_ids = get_external_ids(summary)
+        if external_ids["arxiv"]:
+            return arxiv_url(external_ids["arxiv"])
+
+        summary_url = normalise_url(
+            get_nested_value(summary, ["url", "value"], "")
+        )
+        if is_preprint_url(summary_url):
+            return summary_url
+
+    return ""
+
+
+def get_crossref_year(metadata):
+    """Prefer the citation/issue year, then Crossref's general publication year."""
+    for field in ("published-print", "published", "issued", "published-online"):
+        date_parts = get_nested_value(metadata, [field, "date-parts"], [])
+        if date_parts and date_parts[0] and str(date_parts[0][0]).isdigit():
+            return int(date_parts[0][0])
+    return None
+
+
+def get_crossref_authors(metadata):
+    authors = []
+
+    for author in metadata.get("author", []):
+        name = clean_text(
+            " ".join(
+                part
+                for part in (
+                    author.get("given", ""),
+                    author.get("family", ""),
+                    author.get("suffix", ""),
+                )
+                if part
+            )
+        )
+        if not name:
+            name = clean_text(author.get("name", ""))
+        if name:
+            authors.append(name)
+
+    return authors
+
+
+def fetch_crossref_metadata(doi):
+    url = (
+        f"{CROSSREF_API_BASE}/{quote(normalise_doi(doi), safe='')}"
+        f"?mailto={quote(CROSSREF_MAILTO, safe='@')}"
+    )
+    headers = {
+        "Accept": "application/json",
+        "User-Agent": (
+            "MatthewMiddlehurstWebsite/1.0 "
+            f"(mailto:{CROSSREF_MAILTO})"
+        ),
+    }
+    return request_json(url, headers=headers).get("message", {})
+
+
+def enrich_with_crossref(publication):
+    """Use DOI metadata to make titles, authors, venues and types consistent."""
+    doi = publication.get("doi")
+    if not doi:
+        return publication
+
+    metadata = fetch_crossref_metadata(doi)
+
+    titles = metadata.get("title", [])
+    if titles:
+        publication["title"] = clean_text(titles[0])
+
+    authors = get_crossref_authors(metadata)
+    if authors:
+        publication["authors"] = authors
+
+    containers = [
+        clean_text(container)
+        for container in metadata.get("container-title", [])
+        if clean_text(container)
+    ]
+    if containers:
+        publication["venue"] = containers[-1]
+
+    year = get_crossref_year(metadata)
+    if year:
+        publication["year"] = year
+
+    crossref_type = metadata.get("type", "")
+    if crossref_type:
+        publication["type"] = normalise_publication_type(crossref_type)
+
+    return publication
 
 
 def concise_error(error):
@@ -497,7 +656,12 @@ def write_publications(publications):
     )
 
 
-def write_update_report(publications, featured_status):
+def write_update_report(
+    publications,
+    featured_status,
+    crossref_enriched_count,
+    crossref_failures,
+):
     selected_count = sum(
         1 for publication in publications if publication.get("selected")
     )
@@ -507,6 +671,22 @@ def write_update_report(publications, featured_status):
             f"{len(publications)} publications written."
         )
     ]
+
+    if crossref_failures:
+        failed_dois = ", ".join(crossref_failures)
+        lines.extend(
+            [
+                "- Crossref metadata enrichment: **partially failed** — "
+                f"{crossref_enriched_count} DOI records were standardised; "
+                f"{len(crossref_failures)} retained their ORCID formatting.",
+                f"  - Affected DOI(s): {failed_dois}",
+            ]
+        )
+    else:
+        lines.append(
+            "- Crossref metadata enrichment: **succeeded** — "
+            f"{crossref_enriched_count} DOI records were standardised."
+        )
 
     if featured_status.succeeded:
         lines.append(
@@ -544,10 +724,22 @@ def main():
     featured_status = validate_featured_put_codes(featured_status, groups)
 
     publications = []
+    crossref_enriched_count = 0
+    crossref_failures = []
 
     for group in groups:
         work = fetch_best_group_work(orcid_id, group, token)
         publication = normalise_work(work)
+        group_preprint_url = get_group_preprint_url(group)
+        if group_preprint_url:
+            publication["preprint_url"] = group_preprint_url
+
+        if publication["doi"]:
+            try:
+                publication = enrich_with_crossref(publication)
+                crossref_enriched_count += 1
+            except Exception:
+                crossref_failures.append(publication["doi"])
 
         if featured_status.succeeded:
             selected = bool(group["put_codes"] & featured_status.put_codes)
@@ -576,7 +768,12 @@ def main():
     )
 
     write_publications(publications)
-    write_update_report(publications, featured_status)
+    write_update_report(
+        publications,
+        featured_status,
+        crossref_enriched_count,
+        crossref_failures,
+    )
     print(f"Wrote {len(publications)} publications to {OUTPUT_PATH}")
 
 

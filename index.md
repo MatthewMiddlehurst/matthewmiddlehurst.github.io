@@ -5,15 +5,20 @@ title: Home
 
 <section class="hero" id="home" aria-labelledby="home-title">
   <div class="hero-copy">
-    <p class="eyebrow">{{ site.profile.role }} · {{ site.profile.affiliation }}</p>
-    <h1 id="home-title">{{ site.profile.name }}</h1>
-    <p class="lead">{{ site.profile.short_bio }}</p>
-    <p class="hero-summary">My research develops and evaluates machine learning methods for temporal data, with an emphasis on rigorous benchmarking and useful open-source software.</p>
+    <h1 class="hero-name" id="home-title">{{ site.profile.name }}</h1>
+    <p class="hero-affiliation">{{ site.profile.affiliation }}</p>
+    <p class="hero-role">{{ site.profile.role }}</p>
+    <p class="hero-email"><a href="mailto:{{ site.profile.email }}">{{ site.profile.email }}</a></p>
+    <div class="hero-about" aria-labelledby="about-title">
+      <h2 id="about-title">About me</h2>
+      <p>{{ site.profile.short_bio }}</p>
+    </div>
     <div class="hero-actions" aria-label="Contact and academic profiles">
       <a class="button primary" href="mailto:{{ site.profile.email }}">Email me</a>
+      <a href="{{ site.links.github }}">GitHub</a>
       <a href="{{ site.links.orcid }}">ORCID</a>
       <a href="{{ site.links.google_scholar }}">Google Scholar</a>
-      <a href="{{ site.links.github }}">GitHub</a>
+      <a href="{{ site.links.linkedin }}">LinkedIn</a>
     </div>
   </div>
   <img class="profile-photo" src="{{ site.profile.photo | relative_url }}" alt="Portrait of Matthew Middlehurst">
@@ -87,8 +92,8 @@ title: Home
 
 <section class="section" id="software" aria-labelledby="software-title">
   <div class="section-header">
-    <h2 id="software-title">Software</h2>
-    <p>Research software is a central output of my work and supports reproducible time series machine learning research.</p>
+    <h2 id="software-title">Software and data archives</h2>
+    <p>Open-source software and curated benchmark archives are central outputs of my work in reproducible time series machine learning.</p>
   </div>
 
   <div class="project-list">
@@ -119,13 +124,27 @@ title: Home
     </article>
     <article class="project">
       <div>
-        <h3>TSML resources</h3>
-        <p class="project-type">Datasets and benchmarks</p>
+        <h3>Time Series Classification Archive</h3>
+        <p class="project-type">Data archive</p>
       </div>
       <div>
-        <p>Archives, code, configurations, and data-processing workflows for comparing algorithms across temporal learning tasks.</p>
+        <p>A collection of univariate and multivariate time series classification datasets, published results, and benchmark resources.</p>
         <div class="project-links">
-          <a href="{{ site.links.github }}">Browse projects</a>
+          <a href="https://www.timeseriesclassification.com/dataset.php">Datasets</a>
+          <a href="https://www.timeseriesclassification.com/results.php">Results</a>
+        </div>
+      </div>
+    </article>
+    <article class="project">
+      <div>
+        <h3>Multiverse Archive</h3>
+        <p class="project-type">Data archive and benchmarks</p>
+      </div>
+      <div>
+        <p>A multivariate time series classification archive with reproducible experiments, published results, and leaderboard infrastructure.</p>
+        <div class="project-links">
+          <a href="https://github.com/aeon-toolkit/multiverse">GitHub</a>
+          <a href="https://arxiv.org/abs/2603.20352">Paper</a>
         </div>
       </div>
     </article>

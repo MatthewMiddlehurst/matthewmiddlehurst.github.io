@@ -12,7 +12,7 @@ profile:
   affiliation: "University of Bradford"
   location: "Bradford, UK"
   email: "m.b.middlehurst@bradford.ac.uk"
-  short_bio: "I work on time series machine learning, with a focus on classification and open-source research software."
+  short_bio: "I develop and evaluate machine learning methods for temporal data, with a focus on time series classification, rigorous benchmarking, and useful open-source research software."
   photo: "/assets/images/photo.jpg"
 
 links:
@@ -26,7 +26,7 @@ navigation:
     url: "/#research"
   - title: "Publications"
     url: "/#publications"
-  - title: "Software"
+  - title: "Software & data"
     url: "/#software"
   - title: "Teaching"
     url: "/#teaching"

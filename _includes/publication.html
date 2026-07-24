@@ -7,17 +7,31 @@
       {% if include.pub.year %}<span>{{ include.pub.year }}</span>{% endif %}
       {% if include.pub.type %}<span>{{ include.pub.type }}</span>{% endif %}
     </p>
-    {% if include.pub.note %}<p class="note">{{ include.pub.note }}</p>{% endif %}
   </div>
   {% assign publication_doi = include.pub.doi | default: '' | strip | downcase %}
   {% assign publication_url = include.pub.url | default: '' | strip %}
-  {% assign publication_url_normalised = publication_url | downcase | replace: 'http://dx.doi.org/', 'https://doi.org/' | replace: 'https://dx.doi.org/', 'https://doi.org/' | replace: 'http://doi.org/', 'https://doi.org/' %}
   {% assign preprint_url = include.pub.preprint_url | default: '' | strip %}
   {% assign preprint_url_normalised = preprint_url | downcase %}
   {% assign doi_url = publication_doi | prepend: 'https://doi.org/' %}
+  {% assign publication_link = '' %}
+  {% assign publication_label = '' %}
+  {% if publication_doi != '' %}
+    {% assign publication_link = doi_url %}
+    {% assign publication_label = 'DOI' %}
+  {% elsif publication_url != '' %}
+    {% assign publication_link = publication_url %}
+    {% assign publication_label = 'Publication' %}
+  {% elsif preprint_url != '' %}
+    {% assign publication_link = preprint_url %}
+    {% if preprint_url_normalised contains 'arxiv.org' %}
+      {% assign publication_label = 'arXiv' %}
+    {% else %}
+      {% assign publication_label = 'Preprint' %}
+    {% endif %}
+  {% endif %}
+  {% if publication_link != '' %}
   <div class="publication-links">
-    {% if publication_doi != '' %}<a href="{{ doi_url }}">DOI</a>{% endif %}
-    {% if publication_url != '' and publication_url_normalised != doi_url %}<a href="{{ publication_url }}">Publication</a>{% endif %}
-    {% if preprint_url != '' and preprint_url_normalised != publication_url_normalised and preprint_url_normalised != doi_url %}<a href="{{ preprint_url }}">Preprint</a>{% endif %}
+    <a href="{{ publication_link }}">{{ publication_label }}</a>
   </div>
+  {% endif %}
 </li>

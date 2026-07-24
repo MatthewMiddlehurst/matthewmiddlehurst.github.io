@@ -91,7 +91,6 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
   scroll-margin-top: 1rem;
 }
 
-.hero h1,
 .page-header h1 {
   margin: 0;
   max-width: 12ch;
@@ -102,27 +101,77 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
   font-stretch: condensed;
 }
 
+.hero-name {
+  margin: 0 0 0.8rem;
+  color: #dceae6;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
 .eyebrow {
   margin: 0 0 0.75rem;
-  color: #dceae6;
+  color: var(--muted);
   font-size: 0.76rem;
   font-weight: 750;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.hero .lead,
+.hero-affiliation {
+  max-width: 13ch;
+  margin: 0;
+  font-family: var(--display-font);
+  font-size: clamp(2.45rem, 5.5vw, 3.9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-stretch: condensed;
+}
+
+.hero-role {
+  margin: 0.75rem 0 0;
+  color: #fff;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 650;
+}
+
+.hero-email {
+  margin: 0.3rem 0 0;
+}
+
+.hero-email a {
+  color: #dceae6;
+  font-size: 0.95rem;
+}
+
+.hero-about {
+  max-width: 650px;
+  margin: 1.5rem 0 0;
+  padding: 0.9rem 1.05rem 1rem;
+  color: #dceae6;
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0 8px 8px 0;
+}
+
+.hero-about h2 {
+  margin: 0 0 0.3rem;
+  color: #fff;
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.hero-about p {
+  margin: 0;
+}
+
 .page-header .lead {
   max-width: 650px;
   margin: 1.35rem 0 0;
   color: #fff;
   font-size: clamp(1.12rem, 2vw, 1.32rem);
-}
-
-.hero-summary {
-  max-width: 650px;
-  margin: 0.9rem 0 0;
-  color: #dceae6;
 }
 
 .hero-actions {
@@ -332,7 +381,6 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
   color: #9aa7ab;
 }
 
-.publication .note { font-size: 0.94rem; }
 .publication.selected h4::before { content: "★ "; color: var(--accent); }
 
 .publication-links {

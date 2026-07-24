@@ -2,10 +2,16 @@
   {
     "title": "Time Series Machine Learning with Aeon: Classification and Regression",
     "translated_title": "",
-    "authors": [],
+    "authors": [
+      "Matthew Middlehurst",
+      "Anthony Bagnall",
+      "Germain Forestier",
+      "Ali Ismail-Fawaz",
+      "Antoine Guillaume"
+    ],
     "year": 2026,
-    "venue": "MACHINE LEARNING AND KNOWLEDGE DISCOVERY IN DATABASES. APPLIED DATA SCIENCE TRACK AND DEMO TRACK, ECML PKDD 2025, PT X",
-    "type": "journal-article",
+    "venue": "Machine Learning and Knowledge Discovery in Databases. Applied Data Science Track and Demo Track",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-032-06129-4_26",
     "isbn": "",
     "pmid": "",
@@ -13,16 +19,20 @@
     "url": "https://doi.org/10.1007/978-3-032-06129-4_26",
     "orcid_put_code": 214164001,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
     "title": "Channel Selection and Creation Algorithms for Electroencephalography Classification with HIVE-COTE",
     "translated_title": "",
-    "authors": [],
+    "authors": [
+      "Aiden Rushbrooke",
+      "Matthew Middlehurst",
+      "Saber Sami",
+      "Anthony Bagnall"
+    ],
     "year": 2026,
-    "venue": "HYBRID ARTIFICIAL INTELLIGENT SYSTEMS, HAIS 2025, PT II",
-    "type": "journal-article",
+    "venue": "Hybrid Artificial Intelligent Systems",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-032-08462-0_26",
     "isbn": "",
     "pmid": "",
@@ -30,8 +40,7 @@
     "url": "https://doi.org/10.1007/978-3-032-08462-0_26",
     "orcid_put_code": 214164000,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
     "title": "Unsupervised feature based algorithms for time series extrinsic regression",
@@ -45,37 +54,37 @@
     ],
     "year": 2024,
     "venue": "Data Mining and Knowledge Discovery",
-    "type": "journal-article",
+    "type": "Journal article",
     "doi": "10.1007/s10618-024-01027-w",
     "isbn": "",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10618-024-01027-w",
+    "preprint_url": "https://arxiv.org/abs/2305.01429",
     "orcid_put_code": 188489134,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
     "title": "Bake off redux: a review and experimental evaluation of recent time series classification algorithms",
     "translated_title": "",
     "authors": [
-      "Middlehurst, M.",
-      "Schäfer, P.",
-      "Bagnall, A."
+      "Matthew Middlehurst",
+      "Patrick Schäfer",
+      "Anthony Bagnall"
     ],
     "year": 2024,
     "venue": "Data Mining and Knowledge Discovery",
-    "type": "journal-article",
+    "type": "Journal article",
     "doi": "10.1007/s10618-024-01022-1",
     "isbn": "",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10618-024-01022-1",
+    "preprint_url": "https://arxiv.org/abs/2304.13029",
     "orcid_put_code": 191191872,
     "source": "ORCID",
-    "selected": true,
-    "note": ""
+    "selected": true
   },
   {
     "title": "aeon: a Python toolkit for learning from time series",
@@ -85,7 +94,7 @@
       "Ali Ismail-Fawaz",
       "Antoine Guillaume",
       "Christopher Holder",
-      "David Guijo Rubio",
+      "David Guijo-Rubio",
       "Guzal Bulatova",
       "Leonidas Tsaprounis",
       "Lukasz Mentel",
@@ -95,7 +104,7 @@
     ],
     "year": 2024,
     "venue": "Journal of Machine Learning Research",
-    "type": "journal-article",
+    "type": "Journal article",
     "doi": "",
     "isbn": "",
     "pmid": "",
@@ -104,8 +113,7 @@
     "preprint_url": "https://arxiv.org/abs/2406.14231v1",
     "orcid_put_code": 183210668,
     "source": "ORCID",
-    "selected": false,
-    "note": "Software paper for the aeon toolkit."
+    "selected": false
   },
   {
     "title": "A review and evaluation of elastic distance functions for time series clustering",
@@ -117,19 +125,19 @@
     ],
     "year": 2024,
     "venue": "Knowledge and Information Systems",
-    "type": "journal-article",
+    "type": "Journal article",
     "doi": "10.1007/s10115-023-01952-0",
     "isbn": "",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10115-023-01952-0",
+    "preprint_url": "https://arxiv.org/abs/2205.15181",
     "orcid_put_code": 167013851,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
-    "title": "A hands-on introduction to time series classification and regression",
+    "title": "A Hands-on Introduction to Time Series Classification and Regression",
     "translated_title": "",
     "authors": [
       "Anthony Bagnall",
@@ -144,7 +152,7 @@
     ],
     "year": 2024,
     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
-    "type": "conference-paper",
+    "type": "Conference paper",
     "doi": "10.1145/3637528.3671443",
     "isbn": "9798400704901",
     "pmid": "",
@@ -152,19 +160,18 @@
     "url": "https://doi.org/10.1145/3637528.3671443",
     "orcid_put_code": 172712732,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
-    "title": "Extracting Features from Random Subseries: A Hybrid Pipeline for Time Series Classification and Extrinsic Regression",
+    "title": "Extracting Features from Random Subseries: A Hybrid Pipeline for Time Series Classification and Extrinsic Regression",
     "translated_title": "",
     "authors": [
-      "Middlehurst, M.",
-      "Bagnall, A."
+      "Matthew Middlehurst",
+      "Anthony Bagnall"
     ],
     "year": 2023,
-    "venue": "Lecture Notes in Computer Science Including Subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics",
-    "type": "conference-paper",
+    "venue": "Advanced Analytics and Learning on Temporal Data",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-031-49896-1_8",
     "isbn": "9783031498954",
     "pmid": "",
@@ -172,50 +179,71 @@
     "url": "https://doi.org/10.1007/978-3-031-49896-1_8",
     "orcid_put_code": 191191861,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
     "title": "The FreshPRINCE: A Simple Transformation Based Pipeline Time Series Classifier",
     "translated_title": "",
     "authors": [
-      "Middlehurst, M.",
-      "Bagnall, A."
+      "Matthew Middlehurst",
+      "Anthony Bagnall"
     ],
     "year": 2022,
-    "venue": "Lecture Notes in Computer Science Including Subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics",
-    "type": "conference-paper",
+    "venue": "Pattern Recognition and Artificial Intelligence",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-031-09282-4_13",
     "isbn": "9783031092817",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-031-09282-4_13",
+    "preprint_url": "https://arxiv.org/abs/2201.12048",
     "orcid_put_code": 191191858,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
     "title": "The Temporal Dictionary Ensemble (TDE) Classifier for Time Series Classification",
     "translated_title": "",
     "authors": [
-      "Middlehurst, M.",
-      "Large, J.",
-      "Cawley, G.",
-      "Bagnall, A."
+      "Matthew Middlehurst",
+      "James Large",
+      "Gavin Cawley",
+      "Anthony Bagnall"
     ],
     "year": 2021,
-    "venue": "Lecture Notes in Computer Science Including Subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics",
-    "type": "conference-paper",
+    "venue": "Machine Learning and Knowledge Discovery in Databases",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-030-67658-2_38",
     "isbn": "9783030676575",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-030-67658-2_38",
+    "preprint_url": "https://arxiv.org/abs/2105.03841",
     "orcid_put_code": 191191859,
     "source": "ORCID",
-    "selected": false,
-    "note": "Temporal Dictionary Ensemble classifier for time series classification."
+    "selected": false
+  },
+  {
+    "title": "The great multivariate time series classification bake off: a review and experimental evaluation of recent algorithmic advances",
+    "translated_title": "",
+    "authors": [
+      "Alejandro Pasos Ruiz",
+      "Michael Flynn",
+      "James Large",
+      "Matthew Middlehurst",
+      "Anthony Bagnall"
+    ],
+    "year": 2021,
+    "venue": "Data Mining and Knowledge Discovery",
+    "type": "Journal article",
+    "doi": "10.1007/s10618-020-00727-3",
+    "isbn": "",
+    "pmid": "",
+    "arxiv": "",
+    "url": "https://doi.org/10.1007/s10618-020-00727-3",
+    "orcid_put_code": 171445351,
+    "source": "ORCID",
+    "selected": false
   },
   {
     "title": "HIVE-COTE 2.0: a new meta ensemble for time series classification",
@@ -230,103 +258,80 @@
     ],
     "year": 2021,
     "venue": "Machine Learning",
-    "type": "journal-article",
+    "type": "Journal article",
     "doi": "10.1007/s10994-021-06057-9",
     "isbn": "",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10994-021-06057-9",
+    "preprint_url": "https://arxiv.org/abs/2104.07551",
     "orcid_put_code": 171445349,
     "source": "ORCID",
-    "selected": true,
-    "note": "Introduces HIVE-COTE 2.0 for time series classification."
-  },
-  {
-    "title": "The great multivariate time series classification bake off: a review and experimental evaluation of recent algorithmic advances",
-    "translated_title": "",
-    "authors": [
-      "Alejandro Pasos Ruiz",
-      "Michael Flynn",
-      "James Large",
-      "Matthew Middlehurst",
-      "Anthony Bagnall"
-    ],
-    "year": 2020,
-    "venue": "Data Mining and Knowledge Discovery",
-    "type": "journal-article",
-    "doi": "10.1007/s10618-020-00727-3",
-    "isbn": "",
-    "pmid": "",
-    "arxiv": "",
-    "url": "https://doi.org/10.1007/s10618-020-00727-3",
-    "orcid_put_code": 171445351,
-    "source": "ORCID",
-    "selected": false,
-    "note": "Review and experimental evaluation of multivariate time series classification algorithms."
+    "selected": true
   },
   {
     "title": "The Canonical Interval Forest (CIF) Classifier for Time Series Classification",
     "translated_title": "",
     "authors": [
-      "Middlehurst, M.",
-      "Large, J.",
-      "Bagnall, A."
+      "Matthew Middlehurst",
+      "James Large",
+      "Anthony Bagnall"
     ],
     "year": 2020,
-    "venue": "Proceedings 2020 IEEE International Conference on Big Data Big Data 2020",
-    "type": "conference-paper",
+    "venue": "2020 IEEE International Conference on Big Data (Big Data)",
+    "type": "Conference paper",
     "doi": "10.1109/bigdata50022.2020.9378424",
     "isbn": "9781728162515",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1109/bigdata50022.2020.9378424",
+    "preprint_url": "https://arxiv.org/abs/2008.09172",
     "orcid_put_code": 191191870,
     "source": "ORCID",
-    "selected": false,
-    "note": "Canonical Interval Forest classifier for time series classification."
+    "selected": false
   },
   {
-    "title": "On the usage and performance of the hierarchical vote collective of transformation-based ensembles version 1.0 (HIVE-COTE v1.0)",
+    "title": "On the Usage and Performance of the Hierarchical Vote Collective of Transformation-Based Ensembles Version 1.0 (HIVE-COTE v1.0)",
     "translated_title": "",
     "authors": [
-      "Bagnall, A.",
-      "Flynn, M.",
-      "Large, J.",
-      "Lines, J.",
-      "Middlehurst, M."
+      "Anthony Bagnall",
+      "Michael Flynn",
+      "James Large",
+      "Jason Lines",
+      "Matthew Middlehurst"
     ],
     "year": 2020,
-    "venue": "Lecture Notes in Computer Science Including Subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics",
-    "type": "conference-paper",
+    "venue": "Advanced Analytics and Learning on Temporal Data",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-030-65742-0_1",
     "isbn": "9783030657413",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-030-65742-0_1",
+    "preprint_url": "https://arxiv.org/abs/2004.06069",
     "orcid_put_code": 191191871,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   },
   {
-    "title": "Scalable dictionary classifiers for time series classification",
+    "title": "Scalable Dictionary Classifiers for Time Series Classification",
     "translated_title": "",
     "authors": [
-      "Middlehurst, M.",
-      "Vickers, W.",
-      "Bagnall, A."
+      "Matthew Middlehurst",
+      "William Vickers",
+      "Anthony Bagnall"
     ],
     "year": 2019,
-    "venue": "Lecture Notes in Computer Science Including Subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics",
-    "type": "conference-paper",
+    "venue": "Intelligent Data Engineering and Automated Learning – IDEAL 2019",
+    "type": "Conference paper",
     "doi": "10.1007/978-3-030-33607-3_2",
     "isbn": "9783030336066",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-030-33607-3_2",
+    "preprint_url": "https://arxiv.org/abs/1907.11815",
     "orcid_put_code": 191191868,
     "source": "ORCID",
-    "selected": false,
-    "note": ""
+    "selected": false
   }
 ]
