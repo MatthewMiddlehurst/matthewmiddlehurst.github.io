@@ -9,11 +9,15 @@
     </p>
     {% if include.pub.note %}<p class="note">{{ include.pub.note }}</p>{% endif %}
   </div>
-  {% assign publication_doi = include.pub.doi | default: '' | strip %}
+  {% assign publication_doi = include.pub.doi | default: '' | strip | downcase %}
   {% assign publication_url = include.pub.url | default: '' | strip %}
+  {% assign publication_url_normalised = publication_url | downcase | replace: 'http://dx.doi.org/', 'https://doi.org/' | replace: 'https://dx.doi.org/', 'https://doi.org/' | replace: 'http://doi.org/', 'https://doi.org/' %}
+  {% assign preprint_url = include.pub.preprint_url | default: '' | strip %}
+  {% assign preprint_url_normalised = preprint_url | downcase %}
   {% assign doi_url = publication_doi | prepend: 'https://doi.org/' %}
   <div class="publication-links">
     {% if publication_doi != '' %}<a href="{{ doi_url }}">DOI</a>{% endif %}
-    {% if publication_url != '' and publication_url != doi_url %}<a href="{{ publication_url }}">Publication</a>{% endif %}
+    {% if publication_url != '' and publication_url_normalised != doi_url %}<a href="{{ publication_url }}">Publication</a>{% endif %}
+    {% if preprint_url != '' and preprint_url_normalised != publication_url_normalised and preprint_url_normalised != doi_url %}<a href="{{ preprint_url }}">Preprint</a>{% endif %}
   </div>
 </li>

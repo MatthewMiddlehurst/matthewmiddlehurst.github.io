@@ -274,35 +274,24 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
   margin-top: 3.5rem;
 }
 
-.publication-year {
-  margin-top: 2.25rem !important;
-  padding-bottom: 0.6rem;
-  color: var(--accent-dark);
-  border-bottom: 1px solid var(--border);
-  font-size: 0.95rem !important;
-  letter-spacing: 0.06em;
-}
-
 .publication-archive {
   max-height: 34rem;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
-  scrollbar-color: var(--accent) var(--surface-soft);
-  padding: 0 1.25rem 1rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  scrollbar-color: var(--accent) #d1e0dc;
+  padding: 0.35rem 1.25rem;
+  background: var(--surface-soft);
+  border: 1px solid #b7c9c4;
   border-radius: 12px;
-  box-shadow: inset 0 -18px 24px rgba(0, 76, 64, 0.035);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 75, 62, 0.025),
+    inset 0 -18px 24px rgba(0, 75, 62, 0.035);
 }
 
 .publication-archive:focus-visible {
   outline: 3px solid rgba(0, 75, 62, 0.3);
   outline-offset: 3px;
-}
-
-.publication-archive .publication-year:first-child {
-  margin-top: 1.25rem !important;
 }
 
 .publications {
@@ -316,7 +305,7 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;
   padding: 1.15rem 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #bdcec9;
 }
 
 .publication:first-child { border-top: 0; }

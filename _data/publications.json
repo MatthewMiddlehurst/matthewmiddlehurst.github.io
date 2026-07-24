@@ -74,7 +74,7 @@
     "url": "https://doi.org/10.1007/s10618-024-01022-1",
     "orcid_put_code": 191191872,
     "source": "ORCID",
-    "selected": false,
+    "selected": true,
     "note": ""
   },
   {
@@ -100,10 +100,11 @@
     "isbn": "",
     "pmid": "",
     "arxiv": "http://arxiv.org/abs/2406.14231v1",
-    "url": "https://arxiv.org/abs/2406.14231v1",
+    "url": "https://www.jmlr.org/papers/v25/23-1444.html",
+    "preprint_url": "https://arxiv.org/abs/2406.14231v1",
     "orcid_put_code": 183210668,
     "source": "ORCID",
-    "selected": true,
+    "selected": false,
     "note": "Software paper for the aeon toolkit."
   },
   {
@@ -213,7 +214,7 @@
     "url": "https://doi.org/10.1007/978-3-030-67658-2_38",
     "orcid_put_code": 191191859,
     "source": "ORCID",
-    "selected": true,
+    "selected": false,
     "note": "Temporal Dictionary Ensemble classifier for time series classification."
   },
   {
@@ -260,7 +261,7 @@
     "url": "https://doi.org/10.1007/s10618-020-00727-3",
     "orcid_put_code": 171445351,
     "source": "ORCID",
-    "selected": true,
+    "selected": false,
     "note": "Review and experimental evaluation of multivariate time series classification algorithms."
   },
   {
@@ -274,14 +275,14 @@
     "year": 2020,
     "venue": "Proceedings 2020 IEEE International Conference on Big Data Big Data 2020",
     "type": "conference-paper",
-    "doi": "10.1109/BigData50022.2020.9378424",
+    "doi": "10.1109/bigdata50022.2020.9378424",
     "isbn": "9781728162515",
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1109/bigdata50022.2020.9378424",
     "orcid_put_code": 191191870,
     "source": "ORCID",
-    "selected": true,
+    "selected": false,
     "note": "Canonical Interval Forest classifier for time series classification."
   },
   {

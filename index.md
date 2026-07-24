@@ -76,15 +76,11 @@ title: Home
   <div class="publication-group">
     <h3>All publications</h3>
     <div class="publication-archive" role="region" aria-label="Complete publication list" tabindex="0">
-      {% assign publications_by_year = site.data.publications | group_by: "year" | sort: "name" | reverse %}
-      {% for year in publications_by_year %}
-        <h3 class="publication-year">{{ year.name }}</h3>
-        <ol class="publications">
-          {% for pub in year.items %}
-            {% include publication.html pub=pub %}
-          {% endfor %}
-        </ol>
-      {% endfor %}
+      <ol class="publications">
+        {% for pub in site.data.publications %}
+          {% include publication.html pub=pub %}
+        {% endfor %}
+      </ol>
     </div>
   </div>
 </section>

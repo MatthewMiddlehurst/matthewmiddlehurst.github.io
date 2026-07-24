@@ -21,12 +21,26 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Install Featured Works browser
+        continue-on-error: true
+        run: |
+          python -m pip install --disable-pip-version-check "playwright>=1.54,<2"
+          python -m playwright install --with-deps chromium
+
       - name: Update publications from ORCID
+        id: update
         env:
           ORCID_ID: "0000-0002-3293-8779"
           ORCID_CLIENT_ID: ${{ secrets.ORCID_CLIENT_ID }}
           ORCID_CLIENT_SECRET: ${{ secrets.ORCID_CLIENT_SECRET }}
-        run: python scripts/update_publications.py
+          PUBLICATION_UPDATE_REPORT: ${{ runner.temp }}/publication-update-report.md
+        run: |
+          python scripts/update_publications.py
+          {
+            echo "report<<EOF"
+            cat "$PUBLICATION_UPDATE_REPORT"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create or update pull request
         uses: peter-evans/create-pull-request@v8
@@ -39,5 +53,9 @@ jobs:
           body: |
             Updates the website publication data from Matthew Middlehurst's
             public ORCID record.
+
+            ### Import status
+
+            ${{ steps.update.outputs.report }}
           add-paths: |
             _data/publications.json
