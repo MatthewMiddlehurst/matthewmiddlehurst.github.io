@@ -19,6 +19,7 @@ title: Home
       <a href="{{ site.links.orcid }}">ORCID</a>
       <a href="{{ site.links.google_scholar }}">Google Scholar</a>
       <a href="{{ site.links.linkedin }}">LinkedIn</a>
+      <a href="{{ '/cv.pdf' | relative_url }}">CV (2025)</a>
     </div>
   </div>
   <img class="profile-photo" src="{{ site.profile.photo | relative_url }}" alt="Portrait of Matthew Middlehurst">
