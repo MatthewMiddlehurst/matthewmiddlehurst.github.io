@@ -102,11 +102,15 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
 }
 
 .hero-name {
-  margin: 0 0 0.8rem;
-  color: #dceae6;
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  font-weight: 700;
-  line-height: 1.2;
+  max-width: 15ch;
+  margin: 0;
+  color: #fff;
+  font-family: var(--display-font);
+  font-size: clamp(2.15rem, 4.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-stretch: condensed;
 }
 
 .eyebrow {
@@ -119,18 +123,14 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
 }
 
 .hero-affiliation {
-  max-width: 13ch;
-  margin: 0;
-  font-family: var(--display-font);
-  font-size: clamp(2.45rem, 5.5vw, 3.9rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.035em;
-  font-stretch: condensed;
+  margin: 0.15rem 0 0;
+  color: #dceae6;
+  font-size: 0.98rem;
+  font-weight: 550;
 }
 
 .hero-role {
-  margin: 0.75rem 0 0;
+  margin: 0.8rem 0 0;
   color: #fff;
   font-size: clamp(1.05rem, 2vw, 1.25rem);
   font-weight: 650;

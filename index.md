@@ -6,8 +6,8 @@ title: Home
 <section class="hero" id="home" aria-labelledby="home-title">
   <div class="hero-copy">
     <h1 class="hero-name" id="home-title">{{ site.profile.name }}</h1>
-    <p class="hero-affiliation">{{ site.profile.affiliation }}</p>
     <p class="hero-role">{{ site.profile.role }}</p>
+    <p class="hero-affiliation">{{ site.profile.affiliation }}</p>
     <p class="hero-email"><a href="mailto:{{ site.profile.email }}">{{ site.profile.email }}</a></p>
     <div class="hero-about" aria-labelledby="about-title">
       <h2 id="about-title">About me</h2>
@@ -29,29 +29,29 @@ title: Home
 <section class="section" id="research" aria-labelledby="research-title">
   <div class="section-header">
     <h2 id="research-title">Research</h2>
-    <p>I work on machine learning for ordered observations, including sensor streams, human activity data, industrial measurements, biomedical signals, and other temporal data.</p>
+    <p>My research develops methods and open-source infrastructure for learning from time series. I work across classification, regression, and clustering, with a particular focus on reliable evaluation and on data that depart from the clean, equal-length assumptions used by many algorithms.</p>
   </div>
 
   <div class="topic-grid">
     <article class="topic">
-      <h3>Classification algorithms</h3>
-      <p>Designing and evaluating ensemble, dictionary, interval, convolutional, feature-based, and hybrid approaches to time series classification.</p>
+      <h3>Time series learning algorithms</h3>
+      <p>Developing ensemble, dictionary, interval, feature-based, and hybrid methods for classification, while extending these ideas to extrinsic regression and clustering.</p>
     </article>
     <article class="topic">
-      <h3>Benchmarking and reproducibility</h3>
-      <p>Developing fair experimental protocols, curated archives, and infrastructure for reliable comparison of time series machine learning algorithms.</p>
+      <h3>Benchmarking and open research</h3>
+      <p>Designing large-scale comparative studies, curated dataset archives, and reproducible software through aeon and tsml-eval so results can be tested, reused, and extended.</p>
     </article>
     <article class="topic">
-      <h3>Complex temporal data</h3>
-      <p>Learning from multivariate and unequal-length series where channels, missing values, alignment, sampling, and sequence length matter.</p>
+      <h3>Complex and streaming data</h3>
+      <p>Learning from multivariate, unequal-length, and continuously arriving series, including segmentation, missing or unexpected data, and methods suitable for real-time decisions.</p>
     </article>
     <article class="topic">
-      <h3>Applied machine learning</h3>
-      <p>Working with human activity recognition, rehabilitation, biosignal analysis, and sensor-based monitoring problems.</p>
+      <h3>Health and human movement</h3>
+      <p>Applying time series methods to EEG, human activity recognition, and rehabilitation, including movement-quality assessment from skeletal motion and wearable inertial sensors.</p>
     </article>
   </div>
 
-  <p class="section-note">I welcome collaborations involving temporal data, reproducible benchmarking, open-source machine learning, and applied sensor data problems.</p>
+  <p class="section-note">Current directions include robust unequal-length classification, multivariate benchmark archives, real-time sensor-stream analysis, and rehabilitation applications. I welcome collaboration on methodological, applied, and open-source projects.</p>
 </section>
 
 <section class="section" id="publications" aria-labelledby="publications-title">
