@@ -297,7 +297,7 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
 }
 
 .topic h3,
-.project h3,
+.project h4,
 .teaching-grid h3,
 .publication-group > h3 {
   margin: 0 0 0.55rem;
@@ -405,6 +405,19 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
   border-bottom: 1px solid var(--border);
 }
 
+.project-group + .project-group {
+  margin-top: 2.75rem;
+}
+
+.subsection-title {
+  margin: 0 0 0.65rem;
+  color: var(--accent-dark);
+  font-family: var(--display-font);
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
 .project {
   display: grid;
   grid-template-columns: minmax(10rem, 0.38fr) minmax(0, 1fr);
@@ -429,6 +442,11 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
 .teaching-grid > div {
   padding-top: 1rem;
   border-top: 3px solid var(--accent);
+}
+
+.teaching-grid p {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
 }
 
 .teaching-grid ul {

@@ -58,7 +58,6 @@ title: Home
   <div class="section-header with-links">
     <div>
       <h2 id="publications-title">Publications</h2>
-      <p>Selected papers are highlighted below, followed by the complete publication list.</p>
     </div>
     <div class="profile-links" aria-label="External publication profiles">
       <a href="{{ site.links.orcid }}">ORCID</a>
@@ -96,10 +95,12 @@ title: Home
     <p>Open-source software and curated benchmark archives are central outputs of my work in reproducible time series machine learning.</p>
   </div>
 
-  <div class="project-list">
-    <article class="project">
+  <div class="project-group" aria-labelledby="software-projects-title">
+    <h3 class="subsection-title" id="software-projects-title">Software</h3>
+    <div class="project-list">
+      <article class="project">
       <div>
-        <h3>aeon</h3>
+        <h4>aeon</h4>
         <p class="project-type">Python toolkit</p>
       </div>
       <div>
@@ -109,10 +110,10 @@ title: Home
           <a href="https://www.aeon-toolkit.org/">Documentation</a>
         </div>
       </div>
-    </article>
-    <article class="project">
+      </article>
+      <article class="project">
       <div>
-        <h3>tsml-eval</h3>
+        <h4>tsml-eval</h4>
         <p class="project-type">Evaluation infrastructure</p>
       </div>
       <div>
@@ -121,10 +122,16 @@ title: Home
           <a href="https://github.com/time-series-machine-learning/tsml-eval">GitHub</a>
         </div>
       </div>
-    </article>
-    <article class="project">
+      </article>
+    </div>
+  </div>
+
+  <div class="project-group" aria-labelledby="data-archives-title">
+    <h3 class="subsection-title" id="data-archives-title">Data archives</h3>
+    <div class="project-list">
+      <article class="project">
       <div>
-        <h3>Time Series Classification Archive</h3>
+        <h4>Time Series Classification Archive</h4>
         <p class="project-type">Data archive</p>
       </div>
       <div>
@@ -134,10 +141,10 @@ title: Home
           <a href="https://www.timeseriesclassification.com/results.php">Results</a>
         </div>
       </div>
-    </article>
-    <article class="project">
+      </article>
+      <article class="project">
       <div>
-        <h3>Multiverse Archive</h3>
+        <h4>Multiverse Archive</h4>
         <p class="project-type">Data archive and benchmarks</p>
       </div>
       <div>
@@ -147,10 +154,11 @@ title: Home
           <a href="https://arxiv.org/abs/2603.20352">Paper</a>
         </div>
       </div>
-    </article>
+      </article>
+    </div>
   </div>
 
-  <p class="section-note">When using this software in academic work, please cite the relevant software papers and versioned releases where possible.</p>
+  <p class="section-note">When using these resources in academic work, please cite the relevant papers, datasets, and versioned releases where possible.</p>
 </section>
 
 <section class="section" id="teaching" aria-labelledby="teaching-title">
@@ -161,17 +169,12 @@ title: Home
 
   <div class="teaching-grid">
     <div>
-      <h3>Teaching areas</h3>
-      <ul>
-        <li>Programming and software development</li>
-        <li>Algorithms and data structures</li>
-        <li>Machine learning and data science</li>
-        <li>Time series machine learning</li>
-        <li>Research methods, reproducibility, and academic writing</li>
-      </ul>
+      <h3>Teaching experience</h3>
+      <p>I am module leader for <em>Fundamentals of Programming</em> and <em>Technical and Professional Skills</em>, delivered through the Yangzhou University-University of Bradford Joint College of Advanced Manufacturing. This has included a month of in-person teaching in China.</p>
     </div>
     <div>
-      <h3>Supervision interests</h3>
+      <h3>Project supervision</h3>
+      <p>I currently supervise one PhD student and one MSc student, and have supervised five completed undergraduate final-year projects. Potential projects can be scoped for undergraduate, master's, and PhD study in:</p>
       <ul>
         <li>Time series classification, regression, clustering, and anomaly detection</li>
         <li>Machine learning benchmarking and reproducibility</li>
