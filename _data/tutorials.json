@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Practical Time Series Classification: an Overview of Current Research and Solutions for Imperfect Data",
+    "event": "IEEE DSAA 2025",
+    "role": "Contributor",
+    "description": "Methods and practical considerations for classification with unequal-length series, class imbalance, and other imperfect data.",
+    "url": "https://aeon-tutorials.github.io/DSAA-2025/"
+  },
+  {
+    "title": "An Introduction to Machine Learning from Time Series",
+    "event": "ECML-PKDD 2024",
+    "role": "Presenter",
+    "description": "An introduction to time series learning tasks, with practical examples using aeon.",
+    "url": "https://aeon-tutorials.github.io/ECML-2024/",
+    "materials_url": "https://aeon-tutorials.github.io/ECML-2024/code.html"
+  },
+  {
+    "title": "A Hands-on Introduction to Time Series Classification and Regression",
+    "event": "KDD 2024",
+    "role": "Presenter",
+    "description": "Practical classification and regression, reproducible evaluation, and applications to EEG data.",
+    "url": "https://aeon-tutorials.github.io/KDD-2024/",
+    "materials_url": "https://aeon-tutorials.github.io/KDD-2024/code.html"
+  }
+]

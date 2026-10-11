@@ -66,7 +66,9 @@ title: Home
     </div>
   </div>
 
-  {% assign selected_publications = site.data.publications | where: "selected", true %}
+  {% assign published_papers = site.data.publications | where_exp: "pub", "pub.type != 'Preprint'" %}
+  {% assign preprints = site.data.publications | where: "type", "Preprint" %}
+  {% assign selected_publications = published_papers | where: "selected", true %}
   {% if selected_publications.size > 0 %}
   <div class="publication-group">
     <h3>Selected publications</h3>
@@ -79,15 +81,25 @@ title: Home
   {% endif %}
 
   <div class="publication-group">
-    <h3>All publications</h3>
-    <div class="publication-archive" role="region" aria-label="Complete publication list" tabindex="0">
+    <h3>Published papers</h3>
+    <div class="publication-archive" role="region" aria-label="Published papers" tabindex="0">
       <ol class="publications">
-        {% for pub in site.data.publications %}
+        {% for pub in published_papers %}
           {% include publication.html pub=pub %}
         {% endfor %}
       </ol>
     </div>
   </div>
+  {% if preprints.size > 0 %}
+  <div class="publication-group" id="preprints">
+    <h3>Preprints</h3>
+    <ol class="publications">
+      {% for pub in preprints %}
+        {% include publication.html pub=pub %}
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
 </section>
 
 <section class="section" id="software" aria-labelledby="software-title">
@@ -182,6 +194,28 @@ title: Home
         <li>Sensor, activity-recognition, health, rehabilitation, and industrial monitoring data</li>
         <li>Python research software and open-source machine learning infrastructure</li>
       </ul>
+    </div>
+  </div>
+
+  <div class="tutorials" id="tutorials" aria-labelledby="tutorials-title">
+    <h3 class="subsection-title" id="tutorials-title">Tutorials</h3>
+    <div class="project-list">
+      {% for tutorial in site.data.tutorials %}
+      <article class="project">
+        <div>
+          <h4>{{ tutorial.event | escape }}</h4>
+          <p class="project-type">{{ tutorial.role | escape }}</p>
+        </div>
+        <div>
+          <h4>{{ tutorial.title | escape }}</h4>
+          <p>{{ tutorial.description | escape }}</p>
+          <div class="project-links">
+            <a href="{{ tutorial.url | escape }}">Tutorial website</a>
+            {% if tutorial.materials_url %}<a href="{{ tutorial.materials_url | escape }}">Slides and code</a>{% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
     </div>
   </div>
 </section>

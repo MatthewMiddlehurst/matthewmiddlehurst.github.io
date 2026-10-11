@@ -457,6 +457,8 @@ a:focus-visible { outline: 3px solid rgba(0, 75, 62, 0.3); outline-offset: 3px; 
 
 .teaching-grid li + li { margin-top: 0.45rem; }
 
+.tutorials { margin-top: 3rem; }
+
 .page-content {
   padding: clamp(1.5rem, 4vw, 3rem);
   background: var(--surface);

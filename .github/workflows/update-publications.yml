@@ -10,6 +10,10 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: update-orcid-publications
+  cancel-in-progress: false
+
 jobs:
   update-publications:
     runs-on: ubuntu-latest
@@ -20,6 +24,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+
+      - name: Test publication importer
+        run: python -B -m unittest discover -s tests -v
 
       - name: Install Featured Works browser
         continue-on-error: true
@@ -36,6 +43,7 @@ jobs:
           PUBLICATION_UPDATE_REPORT: ${{ runner.temp }}/publication-update-report.md
         run: |
           python scripts/update_publications.py
+          cat "$PUBLICATION_UPDATE_REPORT" >> "$GITHUB_STEP_SUMMARY"
           {
             echo "report<<EOF"
             cat "$PUBLICATION_UPDATE_REPORT"

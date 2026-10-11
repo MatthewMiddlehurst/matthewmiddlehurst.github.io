@@ -6,6 +6,8 @@ on:
     # 09:00 UTC on the first day of each month.
     - cron: "0 9 1 * *"
   pull_request:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -18,20 +20,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Check links
+      - name: Build site with GitHub Pages
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Test publication importer
+        run: python3 -B -m unittest discover -s tests -v
+
+      - name: Check rendered links
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
-            --root-dir "${{ github.workspace }}"
+            --root-dir "${{ github.workspace }}/_site"
+            --no-ignore
+            --include-fragments
+            --index-files index.html
             --verbose
             --no-progress
             --method get
             --timeout 20
             --max-retries 2
-            './**/*.md'
-            './**/*.markdown'
-            './**/*.html'
-            './**/*.rst'
+            './_site/**/*.html'
           fail: true
           failIfEmpty: true
-          jobSummary: false
+          jobSummary: true

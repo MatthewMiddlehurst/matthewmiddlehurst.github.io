@@ -1,9 +1,9 @@
 <li class="publication{% if include.pub.selected %} selected{% endif %}">
   <div class="publication-main">
-    <h4>{{ include.pub.title }}</h4>
-    {% if include.pub.authors.size > 0 %}<p class="authors">{{ include.pub.authors | join: ', ' }}</p>{% endif %}
+    <h4>{{ include.pub.title | escape }}</h4>
+    {% if include.pub.authors.size > 0 %}<p class="authors">{{ include.pub.authors | join: ', ' | escape }}</p>{% endif %}
     <p class="venue">
-      {% if include.pub.venue %}<span>{{ include.pub.venue }}</span>{% endif %}
+      {% if include.pub.venue %}<span>{{ include.pub.venue | escape }}</span>{% endif %}
       {% if include.pub.year %}<span>{{ include.pub.year }}</span>{% endif %}
       {% if include.pub.type %}<span>{{ include.pub.type }}</span>{% endif %}
     </p>
@@ -15,12 +15,18 @@
   {% assign doi_url = publication_doi | prepend: 'https://doi.org/' %}
   {% assign publication_link = '' %}
   {% assign publication_label = '' %}
-  {% if publication_doi != '' %}
+  {% if publication_url != '' %}
+    {% assign publication_link = publication_url %}
+    {% if publication_url == doi_url %}
+      {% assign publication_label = 'DOI' %}
+    {% elsif include.pub.type == 'Preprint' %}
+      {% assign publication_label = 'Preprint' %}
+    {% else %}
+      {% assign publication_label = 'Publication' %}
+    {% endif %}
+  {% elsif publication_doi != '' %}
     {% assign publication_link = doi_url %}
     {% assign publication_label = 'DOI' %}
-  {% elsif publication_url != '' %}
-    {% assign publication_link = publication_url %}
-    {% assign publication_label = 'Publication' %}
   {% elsif preprint_url != '' %}
     {% assign publication_link = preprint_url %}
     {% if preprint_url_normalised contains 'arxiv.org' %}
@@ -31,7 +37,7 @@
   {% endif %}
   {% if publication_link != '' %}
   <div class="publication-links">
-    <a href="{{ publication_link }}">{{ publication_label }}</a>
+    <a href="{{ publication_link | escape }}">{{ publication_label }}</a>
   </div>
   {% endif %}
 </li>

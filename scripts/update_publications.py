@@ -15,6 +15,7 @@ ORCID_RECORD_BASE = "https://orcid.org"
 ORCID_TOKEN_URL = "https://orcid.org/oauth/token"
 OUTPUT_PATH = Path("_data/publications.json")
 OVERRIDES_PATH = Path("_data/publication_overrides.json")
+ADDITIONS_PATH = Path("_data/publication_additions.json")
 REPORT_PATH_ENV = "PUBLICATION_UPDATE_REPORT"
 
 FEATURED_WORK_SELECTOR = (
@@ -34,6 +35,7 @@ PUBLICATION_TYPE_LABELS = {
     "conference-paper": "Conference paper",
     "conference-proceedings": "Conference paper",
     "journal-article": "Journal article",
+    "preprint": "Preprint",
     "proceedings-article": "Conference paper",
     "report": "Report",
     "working-paper": "Working paper",
@@ -139,6 +141,11 @@ def doi_url(doi):
     return f"https://doi.org/{value}" if value else ""
 
 
+def is_preprint_doi(doi):
+    """Recognise arXiv's DataCite DOIs, which are not Crossref publications."""
+    return normalise_doi(doi).startswith("10.48550/arxiv.")
+
+
 def normalise_url(url):
     """Normalise DOI and common preprint URLs without rewriting other hosts."""
     value = str(url or "").strip()
@@ -161,14 +168,20 @@ def normalise_url(url):
 
 
 def is_preprint_url(url):
-    hostname = (urlparse(normalise_url(url)).hostname or "").casefold()
-    return hostname in PREPRINT_HOSTS
+    parsed = urlparse(normalise_url(url))
+    hostname = (parsed.hostname or "").casefold()
+    return hostname in PREPRINT_HOSTS or (
+        hostname == "doi.org" and is_preprint_doi(parsed.path.lstrip("/"))
+    )
 
 
 def arxiv_url(identifier):
     value = str(identifier or "").strip()
     if not value:
         return ""
+
+    if is_preprint_doi(value):
+        return f"https://arxiv.org/abs/{normalise_doi(value).split('arxiv.', 1)[1]}"
 
     if value.startswith(("http://", "https://")):
         return normalise_url(value)
@@ -324,11 +337,75 @@ def get_external_ids(work):
     for item in external_ids:
         id_type = str(item.get("external-id-type", "")).casefold()
         id_value = item.get("external-id-value", "")
+        relationship = str(item.get("external-id-relationship") or "self").casefold()
 
-        if id_type in ids and id_value:
+        if id_type not in ids or not id_value:
+            continue
+
+        # A proceedings/book DOI or another version's DOI does not identify
+        # this work. ISBNs may legitimately identify the containing proceedings.
+        if id_type in {"doi", "pmid"} and relationship != "self":
+            continue
+        if id_type == "arxiv" and relationship not in {"self", "version-of"}:
+            continue
+
+        if not ids[id_type] or (
+            id_type == "doi"
+            and is_preprint_doi(ids[id_type])
+            and not is_preprint_doi(id_value)
+        ):
             ids[id_type] = id_value
 
     return ids
+
+
+def get_work_preprint_url(work):
+    """Keep the preprint link even when its DOI is not the work's own DOI."""
+    external_ids = get_nested_value(work, ["external-ids", "external-id"], [])
+    for id_type in ("arxiv", "doi"):
+        for item in external_ids:
+            relationship = str(
+                item.get("external-id-relationship") or "self"
+            ).casefold()
+            value = item.get("external-id-value", "")
+            if relationship not in {"self", "version-of"} or not value:
+                continue
+            if str(item.get("external-id-type", "")).casefold() != id_type:
+                continue
+            if id_type == "arxiv" or is_preprint_doi(value):
+                return arxiv_url(value)
+
+    work_url = normalise_url(get_nested_value(work, ["url", "value"], ""))
+    if is_preprint_url(work_url):
+        return arxiv_url(work_url) if is_preprint_doi(work_url) else work_url
+    return ""
+
+
+def is_preprint_work(work):
+    """Distinguish a published work with an arXiv link from a preprint copy."""
+    if clean_text(work.get("type", "")).casefold() == "preprint":
+        return True
+
+    doi = get_external_ids(work)["doi"]
+    if doi and not is_preprint_doi(doi):
+        return False
+
+    venue = clean_text(get_nested_value(work, ["journal-title", "value"], ""))
+    if venue:
+        if re.match(r"^(?:arxiv|biorxiv|medrxiv|ssrn)\b", venue.casefold()):
+            return True
+        if normalise_publication_type(work.get("type", "")) in {
+            "Journal article", "Conference paper"
+        }:
+            return False
+
+    if is_preprint_doi(doi):
+        return True
+
+    work_url = normalise_url(get_nested_value(work, ["url", "value"], ""))
+    return bool(get_work_preprint_url(work)) and (
+        not work_url or is_preprint_url(work_url)
+    )
 
 
 def get_year(work):
@@ -370,20 +447,22 @@ def normalise_work(work):
 
     doi = normalise_doi(external_ids["doi"])
     work_url = normalise_url(get_nested_value(work, ["url", "value"], ""))
-    external_preprint_url = arxiv_url(external_ids["arxiv"])
+    preprint_url = get_work_preprint_url(work)
+    preprint = is_preprint_work(work)
+    if not preprint and is_preprint_doi(doi):
+        # A journal record may carry only the DOI of its arXiv version.
+        doi = ""
 
-    preprint_url = ""
-    if is_preprint_url(work_url):
-        preprint_url = work_url
-    elif external_preprint_url:
-        preprint_url = external_preprint_url
-
-    if work_url and not is_preprint_url(work_url):
+    if preprint and preprint_url:
+        publication_url = preprint_url
+    elif doi and not is_preprint_doi(doi):
+        publication_url = doi_url(doi)
+    elif work_url and not is_preprint_url(work_url):
         publication_url = work_url
     elif doi:
         publication_url = doi_url(doi)
     else:
-        publication_url = ""
+        publication_url = preprint_url
 
     return {
         "title": title,
@@ -393,7 +472,11 @@ def normalise_work(work):
         "venue": clean_text(
             get_nested_value(work, ["journal-title", "value"], "")
         ),
-        "type": normalise_publication_type(work.get("type", "")),
+        "type": (
+            "Preprint"
+            if preprint
+            else normalise_publication_type(work.get("type", ""))
+        ),
         "doi": doi,
         "isbn": external_ids["isbn"],
         "pmid": external_ids["pmid"],
@@ -411,7 +494,8 @@ def work_quality_score(work):
     work_url = normalise_url(get_nested_value(work, ["url", "value"], ""))
 
     return (
-        bool(normalise_doi(external_ids["doi"])),
+        not is_preprint_work(work),
+        bool(external_ids["doi"] and not is_preprint_doi(external_ids["doi"])),
         bool(get_nested_value(work, ["journal-title", "value"], "")),
         bool(work_url and not is_preprint_url(work_url)),
         len(get_authors(work)),
@@ -455,22 +539,23 @@ def fetch_work(orcid_id, put_code, token):
 
 
 def fetch_best_group_work(orcid_id, group, token):
-    best_summary = max(group["summaries"], key=work_quality_score)
-    return fetch_work(orcid_id, best_summary["put-code"], token)
+    best_score = max(work_quality_score(summary) for summary in group["summaries"])
+    # ORCID summaries omit contributors. Fetch equally ranked candidates so
+    # records with complete author lists win over incomplete duplicates.
+    candidates = [
+        fetch_work(orcid_id, summary["put-code"], token)
+        for summary in group["summaries"]
+        if work_quality_score(summary) == best_score
+    ]
+    return max(candidates, key=work_quality_score)
 
 
 def get_group_preprint_url(group):
     """Find a preprint identifier from any source in an ORCID work group."""
     for summary in group["summaries"]:
-        external_ids = get_external_ids(summary)
-        if external_ids["arxiv"]:
-            return arxiv_url(external_ids["arxiv"])
-
-        summary_url = normalise_url(
-            get_nested_value(summary, ["url", "value"], "")
-        )
-        if is_preprint_url(summary_url):
-            return summary_url
+        preprint_url = get_work_preprint_url(summary)
+        if preprint_url:
+            return preprint_url
 
     return ""
 
@@ -525,7 +610,7 @@ def fetch_crossref_metadata(doi):
 def enrich_with_crossref(publication):
     """Use DOI metadata to make titles, authors, venues and types consistent."""
     doi = publication.get("doi")
-    if not doi:
+    if not doi or is_preprint_doi(doi):
         return publication
 
     metadata = fetch_crossref_metadata(doi)
@@ -656,6 +741,31 @@ def write_publications(publications):
     )
 
 
+def merge_publication_additions(publications, overrides):
+    """Include curated works missing from ORCID without duplicating later imports."""
+    if not ADDITIONS_PATH.exists():
+        return publications
+
+    additions = json.loads(ADDITIONS_PATH.read_text(encoding="utf-8"))
+    for addition in additions:
+        addition = apply_overrides(dict(addition), overrides, addition.get("selected", False))
+        if addition is None:
+            continue
+        keys = set(publication_override_keys(addition))
+        match = next(
+            (i for i, pub in enumerate(publications)
+             if keys.intersection(publication_override_keys(pub))),
+            None,
+        )
+        if match is None:
+            publications.append(addition)
+        elif publications[match].get("type") == "Preprint" and addition.get("type") != "Preprint":
+            addition["selected"] = publications[match].get("selected", False)
+            addition.setdefault("preprint_url", publications[match].get("preprint_url", ""))
+            publications[match] = addition
+    return publications
+
+
 def write_update_report(
     publications,
     featured_status,
@@ -667,8 +777,8 @@ def write_update_report(
     )
     lines = [
         (
-            f"- ORCID publication import: **succeeded** — "
-            f"{len(publications)} publications written."
+            f"- Publication import: **succeeded** — "
+            f"{len(publications)} works written, including any curated additions."
         )
     ]
 
@@ -734,7 +844,7 @@ def main():
         if group_preprint_url:
             publication["preprint_url"] = group_preprint_url
 
-        if publication["doi"]:
+        if publication["doi"] and not is_preprint_doi(publication["doi"]):
             try:
                 publication = enrich_with_crossref(publication)
                 crossref_enriched_count += 1
@@ -758,6 +868,8 @@ def main():
         raise RuntimeError(
             "ORCID returned no publications; refusing to overwrite the data file."
         )
+
+    publications = merge_publication_additions(publications, overrides)
 
     publications.sort(
         key=lambda item: (

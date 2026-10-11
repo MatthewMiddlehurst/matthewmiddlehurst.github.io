@@ -17,8 +17,47 @@
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-032-06129-4_26",
+    "preprint_url": "",
     "orcid_put_code": 214164001,
     "source": "ORCID",
+    "selected": false
+  },
+  {
+    "title": "The Multiverse of Time Series Machine Learning: an Archive for Multivariate Time Series Classification",
+    "authors": [
+      "Matthew Middlehurst",
+      "Aiden Rushbrooke",
+      "Ali Ismail-Fawaz",
+      "Maxime Devanne",
+      "Germain Forestier",
+      "Angus Dempster",
+      "Geoffrey I. Webb",
+      "Christopher Holder",
+      "Anthony Bagnall"
+    ],
+    "year": 2026,
+    "venue": "arXiv",
+    "type": "Preprint",
+    "doi": "10.48550/arxiv.2603.20352",
+    "url": "https://arxiv.org/abs/2603.20352",
+    "preprint_url": "https://arxiv.org/abs/2603.20352",
+    "source": "arXiv",
+    "selected": false
+  },
+  {
+    "title": "e-SMOTE: A Train Set Rebalancing Algorithm for Time Series Classification",
+    "authors": [
+      "Chuanhang Qiu",
+      "Matthew Middlehurst",
+      "Christopher Holder",
+      "Anthony Bagnall"
+    ],
+    "year": 2026,
+    "venue": "Advanced Analytics and Learning on Temporal Data",
+    "type": "Conference paper",
+    "doi": "10.1007/978-3-032-15535-1_1",
+    "url": "https://doi.org/10.1007/978-3-032-15535-1_1",
+    "source": "Publisher",
     "selected": false
   },
   {
@@ -38,6 +77,7 @@
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-032-08462-0_26",
+    "preprint_url": "",
     "orcid_put_code": 214164000,
     "source": "ORCID",
     "selected": false
@@ -61,7 +101,7 @@
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10618-024-01027-w",
     "preprint_url": "https://arxiv.org/abs/2305.01429",
-    "orcid_put_code": 188489134,
+    "orcid_put_code": 191191866,
     "source": "ORCID",
     "selected": false
   },
@@ -87,7 +127,7 @@
     "selected": true
   },
   {
-    "title": "aeon: a Python toolkit for learning from time series",
+    "title": "aeon: a Python Toolkit for Learning from Time Series",
     "translated_title": "",
     "authors": [
       "Matthew Middlehurst",
@@ -111,7 +151,7 @@
     "arxiv": "http://arxiv.org/abs/2406.14231v1",
     "url": "https://www.jmlr.org/papers/v25/23-1444.html",
     "preprint_url": "https://arxiv.org/abs/2406.14231v1",
-    "orcid_put_code": 183210668,
+    "orcid_put_code": 171025653,
     "source": "ORCID",
     "selected": false
   },
@@ -132,7 +172,7 @@
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10115-023-01952-0",
     "preprint_url": "https://arxiv.org/abs/2205.15181",
-    "orcid_put_code": 167013851,
+    "orcid_put_code": 191191860,
     "source": "ORCID",
     "selected": false
   },
@@ -158,7 +198,8 @@
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1145/3637528.3671443",
-    "orcid_put_code": 172712732,
+    "preprint_url": "",
+    "orcid_put_code": 191191856,
     "source": "ORCID",
     "selected": false
   },
@@ -177,6 +218,7 @@
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/978-3-031-49896-1_8",
+    "preprint_url": "",
     "orcid_put_code": 191191861,
     "source": "ORCID",
     "selected": false
@@ -241,7 +283,8 @@
     "pmid": "",
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10618-020-00727-3",
-    "orcid_put_code": 171445351,
+    "preprint_url": "",
+    "orcid_put_code": 85480051,
     "source": "ORCID",
     "selected": false
   },
@@ -265,7 +308,7 @@
     "arxiv": "",
     "url": "https://doi.org/10.1007/s10994-021-06057-9",
     "preprint_url": "https://arxiv.org/abs/2104.07551",
-    "orcid_put_code": 171445349,
+    "orcid_put_code": 191191867,
     "source": "ORCID",
     "selected": true
   },

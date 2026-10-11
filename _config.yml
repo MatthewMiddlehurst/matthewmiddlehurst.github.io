@@ -47,6 +47,8 @@ exclude:
   - Gemfile.lock
   - README.md
   - scripts/
+  - tests/
+  - tmp/
   - vendor/
   - .bundle/
   - .github/
