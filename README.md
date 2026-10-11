@@ -36,6 +36,10 @@ the generated PR; this workflow does not approve or merge it.
 checking generated HTML, including publication URLs and navigation anchors. It
 runs for pull requests, pushes to `main`, monthly, and manually via Actions.
 Results appear in the workflow summary.
+Two profile URLs (Google Scholar and LinkedIn) block automated runners and are
+excluded in `.github/lychee.toml`; check these manually when changing them. The
+ACM tutorial DOI is checked against its Crossref record because ACM also blocks
+the runner. Other external URLs and error status codes are checked normally.
 
 Run importer regression tests locally with:
 

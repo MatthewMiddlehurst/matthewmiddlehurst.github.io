@@ -1,0 +1,12 @@
+# These specific profile pages reject automated GitHub runners (403 / 999).
+# Recheck them manually when changing the profile URLs. Do not accept all 403s.
+exclude = [
+  '^https://scholar\.google\.com/citations\?user=ztobgj4AAAAJ$',
+  '^https://www\.linkedin\.com/in/matthew-middlehurst-86215917a/?$',
+]
+
+# ACM rejects the runner, but Crossref can verify this paper's registered DOI.
+# Keep checking all other DOI links normally; this does not alter the website URL.
+remap = [
+  '^https://doi\.org/10\.1145/3637528\.3671443$ https://api.crossref.org/works/10.1145/3637528.3671443',
+]
