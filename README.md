@@ -19,9 +19,10 @@ from published papers.
   imported.
 - `_data/publications.json` is the generated site data; do not edit it to make
   permanent corrections.
-- `_data/tutorials.json` lists tutorials separately under Teaching, using event
-  years and distinguishing presenters from contributors. Associated proceedings
-  papers remain in Publications.
+- `_data/tutorials.json` and `_data/demos.json` populate the separate Tutorials
+  and demos section before Teaching. Entries use event years; tutorials
+  distinguish presenters from contributors. Associated proceedings papers remain
+  in Publications.
 
 The updater requires the repository secrets `ORCID_CLIENT_ID` and
 `ORCID_CLIENT_SECRET`. In **Settings > Actions > General > Workflow permissions**,

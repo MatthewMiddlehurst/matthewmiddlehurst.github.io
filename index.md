@@ -30,29 +30,19 @@ title: Home
 <section class="section" id="research" aria-labelledby="research-title">
   <div class="section-header">
     <h2 id="research-title">Research</h2>
-    <p>My research develops methods and open-source infrastructure for learning from time series. I work across classification, regression, and clustering, with a particular focus on reliable evaluation and on data that depart from the clean, equal-length assumptions used by many algorithms.</p>
   </div>
 
   <div class="topic-grid">
     <article class="topic">
       <h3>Time series learning algorithms</h3>
-      <p>Developing ensemble, dictionary, interval, feature-based, and hybrid methods for classification, while extending these ideas to extrinsic regression and clustering.</p>
+      <p>Developing accurate and efficient machine learning algorithms for time series.</p>
+      <p>I am also interested in anomaly detection and forecasting.</p>
     </article>
     <article class="topic">
       <h3>Benchmarking and open research</h3>
       <p>Designing large-scale comparative studies, curated dataset archives, and reproducible software through aeon and tsml-eval so results can be tested, reused, and extended.</p>
     </article>
-    <article class="topic">
-      <h3>Complex and streaming data</h3>
-      <p>Learning from multivariate, unequal-length, and continuously arriving series, including segmentation, missing or unexpected data, and methods suitable for real-time decisions.</p>
-    </article>
-    <article class="topic">
-      <h3>Health and human movement</h3>
-      <p>Applying time series methods to EEG, human activity recognition, and rehabilitation, including movement-quality assessment from skeletal motion and wearable inertial sensors.</p>
-    </article>
   </div>
-
-  <p class="section-note">Current directions include robust unequal-length classification, multivariate benchmark archives, real-time sensor-stream analysis, and rehabilitation applications. I welcome collaboration on methodological, applied, and open-source projects.</p>
 </section>
 
 <section class="section" id="publications" aria-labelledby="publications-title">
@@ -105,7 +95,7 @@ title: Home
 <section class="section" id="software" aria-labelledby="software-title">
   <div class="section-header">
     <h2 id="software-title">Software and data archives</h2>
-    <p>Open-source software and curated benchmark archives are central outputs of my work in reproducible time series machine learning.</p>
+    <p>When using these resources in academic work, please cite the relevant papers, datasets, and versioned releases where possible.</p>
   </div>
 
   <div class="project-group" aria-labelledby="software-projects-title">
@@ -171,7 +161,55 @@ title: Home
     </div>
   </div>
 
-  <p class="section-note">When using these resources in academic work, please cite the relevant papers, datasets, and versioned releases where possible.</p>
+</section>
+
+<section class="section" id="tutorials-and-demos" aria-labelledby="tutorials-and-demos-title">
+  <div class="section-header">
+    <h2 id="tutorials-and-demos-title">Tutorials and demos</h2>
+  </div>
+
+  <div class="project-group" id="tutorials" aria-labelledby="tutorials-title">
+    <h3 class="subsection-title" id="tutorials-title">Tutorials</h3>
+    <div class="project-list">
+      {% for tutorial in site.data.tutorials %}
+      <article class="project">
+        <div>
+          <h4>{{ tutorial.event | escape }}</h4>
+          <p class="project-type">{{ tutorial.role | escape }}</p>
+        </div>
+        <div>
+          <h4>{{ tutorial.title | escape }}</h4>
+          <p>{{ tutorial.description | escape }}</p>
+          <div class="project-links">
+            <a href="{{ tutorial.url | escape }}">Tutorial website</a>
+            {% if tutorial.materials_url %}<a href="{{ tutorial.materials_url | escape }}">Slides and code</a>{% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="project-group" id="demos" aria-labelledby="demos-title">
+    <h3 class="subsection-title" id="demos-title">Demos</h3>
+    <div class="project-list">
+      {% for demo in site.data.demos %}
+      <article class="project">
+        <div>
+          <h4>{{ demo.event | escape }}</h4>
+        </div>
+        <div>
+          <h4>{{ demo.title | escape }}</h4>
+          <p>{{ demo.description | escape }}</p>
+          <div class="project-links">
+            <a href="{{ demo.url | escape }}">Demo website</a>
+            {% if demo.materials_url %}<a href="{{ demo.materials_url | escape }}">Video and notebook</a>{% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
 </section>
 
 <section class="section" id="teaching" aria-labelledby="teaching-title">
@@ -197,25 +235,4 @@ title: Home
     </div>
   </div>
 
-  <div class="tutorials" id="tutorials" aria-labelledby="tutorials-title">
-    <h3 class="subsection-title" id="tutorials-title">Tutorials</h3>
-    <div class="project-list">
-      {% for tutorial in site.data.tutorials %}
-      <article class="project">
-        <div>
-          <h4>{{ tutorial.event | escape }}</h4>
-          <p class="project-type">{{ tutorial.role | escape }}</p>
-        </div>
-        <div>
-          <h4>{{ tutorial.title | escape }}</h4>
-          <p>{{ tutorial.description | escape }}</p>
-          <div class="project-links">
-            <a href="{{ tutorial.url | escape }}">Tutorial website</a>
-            {% if tutorial.materials_url %}<a href="{{ tutorial.materials_url | escape }}">Slides and code</a>{% endif %}
-          </div>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </div>
 </section>
