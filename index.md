@@ -34,8 +34,8 @@ title: Home
 
   <div class="topic-grid">
     <article class="topic">
-      <h3>Time series learning algorithms</h3>
-      <p>Developing accurate and efficient machine learning algorithms for time series.</p>
+      <h3>Time series machine learning algorithms</h3>
+      <p>Developing accurate and efficient algorithms for time series classification, regression, and clustering.</p>
       <p>I am also interested in anomaly detection and forecasting.</p>
     </article>
     <article class="topic">
